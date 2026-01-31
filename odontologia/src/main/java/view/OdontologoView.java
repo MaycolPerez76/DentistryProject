@@ -1,4 +1,4 @@
-package com.redodontologia.view;
+package view;
 
 import javax.swing.JOptionPane;
 

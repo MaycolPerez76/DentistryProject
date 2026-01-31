@@ -1,4 +1,4 @@
-package com.redodontologia.model;
+package model;
 
 public class Factura {
 

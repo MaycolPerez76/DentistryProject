@@ -1,16 +1,34 @@
 package com.odontologia;
 
-import com.redodontologia.view.CitaView;
-import com.redodontologia.view.FacturaView;
-import com.redodontologia.view.MenuPrincipalView;
-import com.redodontologia.view.OdontologoView;
-import com.redodontologia.view.PacienteView;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import viewFrame.Factura;
+
+
 
 
 public class Main {
 
     public static void main(String[] args) {
 
+        
+        
+             SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Factura");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            // Add your JPanel
+            frame.setContentPane(new Factura());
+
+            frame.pack();              // Adjust size to components
+            frame.setLocationRelativeTo(null); // Center on screen
+            frame.setVisible(true);
+        });
+        
+        
+        
+        
+        /*
         MenuPrincipalView menu = new MenuPrincipalView();
         PacienteView paciente = new PacienteView();
         OdontologoView odontologo = new OdontologoView();
@@ -31,5 +49,16 @@ public class Main {
                 default -> {}
             }
         } while (true);
+        */
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
 }
