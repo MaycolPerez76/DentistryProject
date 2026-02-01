@@ -1,8 +1,8 @@
 package com.odontologia;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import viewFrame.Factura;
+
+import view.MenuPrincipalView;
+
 
 
 
@@ -13,17 +13,10 @@ public class Main {
 
         
         
-             SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Factura");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-            // Add your JPanel
-            frame.setContentPane(new Factura());
-
-            frame.pack();              // Adjust size to components
-            frame.setLocationRelativeTo(null); // Center on screen
-            frame.setVisible(true);
+          javax.swing.SwingUtilities.invokeLater(() -> {
+            new MenuPrincipalView();
         });
+    
         
         
         
