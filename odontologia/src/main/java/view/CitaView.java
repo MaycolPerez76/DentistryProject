@@ -32,6 +32,7 @@ public class CitaView extends JPanel {
     private JButton btnRegistrarLlegada, btnEvaluarAsistencia, btnActualizar;
     private JComboBox<String> cmbFiltroEstado;
     private JTextField txtBuscarPaciente;
+    private JButton btnAsignarMonto;
     
     public CitaView() {
         this.controller = new RecepcionController();
@@ -128,35 +129,50 @@ public class CitaView extends JPanel {
         return panel;
     }
     
-    private JPanel crearPanelBotones() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        
-        btnCrear = new JButton("➕ Crear Cita");
-        btnCrear.addActionListener(e -> mostrarDialogoCrearCita());
-        panel.add(btnCrear);
-        
-        btnReprogramar = new JButton("📅 Reprogramar");
-        btnReprogramar.addActionListener(e -> mostrarDialogoReprogramar());
-        panel.add(btnReprogramar);
-        
-        btnConfirmar = new JButton("✓ Confirmar");
-        btnConfirmar.addActionListener(e -> confirmarCita());
-        panel.add(btnConfirmar);
-        
-        btnCancelar = new JButton("✗ Cancelar");
-        btnCancelar.addActionListener(e -> cancelarCita());
-        panel.add(btnCancelar);
-        
-        btnRegistrarLlegada = new JButton("⏰ Registrar Llegada");
-        btnRegistrarLlegada.addActionListener(e -> mostrarDialogoRegistrarLlegada());
-        panel.add(btnRegistrarLlegada);
-        
-        btnEvaluarAsistencia = new JButton("📋 Evaluar Asistencia");
-        btnEvaluarAsistencia.addActionListener(e -> evaluarAsistencia());
-        panel.add(btnEvaluarAsistencia);
-        
-        return panel;
-    }
+  private JPanel crearPanelBotones() {
+    JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+    
+    btnCrear = new JButton("➕ Crear Cita");
+    btnCrear.addActionListener(e -> mostrarDialogoCrearCita());
+    panel.add(btnCrear);
+    
+    btnReprogramar = new JButton("📅 Reprogramar");
+    btnReprogramar.addActionListener(e -> mostrarDialogoReprogramar());
+    panel.add(btnReprogramar);
+    
+    btnConfirmar = new JButton("✓ Confirmar");
+    btnConfirmar.addActionListener(e -> confirmarCita());
+    panel.add(btnConfirmar);
+    
+    btnCancelar = new JButton("✗ Cancelar");
+    btnCancelar.addActionListener(e -> cancelarCita());
+    panel.add(btnCancelar);
+    
+     // ⭐ NUEVO BOTÓN - ELIMINAR
+    JButton btnEliminar = new JButton("🗑️ Eliminar");
+    btnEliminar.setBackground(new Color(220, 53, 69)); // Rojo para acción destructiva
+    btnEliminar.setForeground(Color.WHITE);
+    btnEliminar.addActionListener(e -> eliminarCita());
+    panel.add(btnEliminar);
+    
+    btnRegistrarLlegada = new JButton("⏰ Registrar Llegada");
+    btnRegistrarLlegada.addActionListener(e -> mostrarDialogoRegistrarLlegada());
+    panel.add(btnRegistrarLlegada);
+    
+    btnEvaluarAsistencia = new JButton("📋 Evaluar Asistencia");
+    btnEvaluarAsistencia.addActionListener(e -> evaluarAsistencia());
+    panel.add(btnEvaluarAsistencia);
+    
+    // ⭐ NUEVO BOTÓN - ASIGNAR MONTO
+    btnAsignarMonto = new JButton("💰 Asignar Monto");
+    btnAsignarMonto.setBackground(new Color(76, 175, 80)); // Verde
+    btnAsignarMonto.setForeground(Color.WHITE);
+    btnAsignarMonto.addActionListener(e -> mostrarDialogoAsignarMonto());
+    panel.add(btnAsignarMonto);
+    
+    return panel;
+}
+
     
     private void cargarDatos() {
         modeloTabla.setRowCount(0); // Limpiar tabla
@@ -269,43 +285,88 @@ public class CitaView extends JPanel {
         JTextField txtMotivo = new JTextField(15);
         dialogo.add(txtMotivo, gbc);
         
+        // Monto (NUEVO)
+gbc.gridx = 0; gbc.gridy = 6;
+dialogo.add(new JLabel("Monto $:"), gbc);
+gbc.gridx = 1;
+JTextField txtMonto = new JTextField(15);
+txtMonto.setText("0.00");
+dialogo.add(txtMonto, gbc);
+        
         // Botones
         JPanel panelBotones = new JPanel(new FlowLayout());
         JButton btnGuardar = new JButton("Guardar");
         JButton btnCancelar = new JButton("Cancelar");
         
-        btnGuardar.addActionListener(e -> {
-            try {
-                // Obtener datos
-                String strPaciente = (String) cmbPaciente.getSelectedItem();
-                int idPaciente = Integer.parseInt(strPaciente.split(" - ")[0]);
-                
-                String strOdontologo = (String) cmbOdontologo.getSelectedItem();
-                int idOdontologo = Integer.parseInt(strOdontologo.split(" - ")[0]);
-                
-                LocalDate fecha = LocalDate.parse(txtFecha.getText(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                LocalTime hora = LocalTime.parse(txtHora.getText(), DateTimeFormatter.ofPattern("HH:mm"));
-                String motivo = txtMotivo.getText();
-                
-                // Crear cita usando RecepcionController
-                if (controller.crearCita(idPaciente, idOdontologo, fecha, hora, motivo)) {
-                    JOptionPane.showMessageDialog(dialogo, "Cita creada exitosamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                    cargarDatos();
-                    dialogo.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(dialogo, 
-                        "No se pudo crear la cita.\nPosibles razones:\n" +
-                        "• El odontólogo ya tiene una cita a esa hora\n" +
-                        "• La fecha es pasada\n" +
-                        "• Datos inválidos", 
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (DateTimeParseException ex) {
-                JOptionPane.showMessageDialog(dialogo, "Formato de fecha u hora inválido", "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(dialogo, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+btnGuardar.addActionListener(e -> {
+    try {
+        // Obtener datos
+        String strPaciente = (String) cmbPaciente.getSelectedItem();
+        int idPaciente = Integer.parseInt(strPaciente.split(" - ")[0]);
+        
+        String strOdontologo = (String) cmbOdontologo.getSelectedItem();
+        int idOdontologo = Integer.parseInt(strOdontologo.split(" - ")[0]);
+        
+        LocalDate fecha = LocalDate.parse(txtFecha.getText(), 
+            java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalTime hora = LocalTime.parse(txtHora.getText(), 
+            java.time.format.DateTimeFormatter.ofPattern("HH:mm"));
+        String motivo = txtMotivo.getText();
+        
+        // ⭐ OBTENER MONTO
+        double monto = 0.0;
+        try {
+            monto = Double.parseDouble(txtMonto.getText().trim());
+            if (monto < 0) {
+                JOptionPane.showMessageDialog(dialogo,
+                    "El monto no puede ser negativo",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        });
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(dialogo,
+                "Formato de monto inválido. Se usará $0.00",
+                "Advertencia",
+                JOptionPane.WARNING_MESSAGE);
+            monto = 0.0;
+        }
+        
+        // ⭐ CREAR CITA CON MONTO
+        if (controller.crearCitaConMonto(idPaciente, idOdontologo, fecha, hora, motivo, monto)) {
+            JOptionPane.showMessageDialog(dialogo,
+                String.format(
+                    "Cita creada exitosamente\n\n" +
+                    "Factura generada automáticamente\n" +
+                    "Monto: $%.2f",
+                    monto
+                ),
+                "Éxito",
+                JOptionPane.INFORMATION_MESSAGE);
+            cargarDatos();
+            dialogo.dispose();
+        } else {
+            JOptionPane.showMessageDialog(dialogo,
+                "No se pudo crear la cita.\nPosibles razones:\n" +
+                "• El odontólogo ya tiene una cita a esa hora\n" +
+                "• La fecha es pasada\n" +
+                "• Datos inválidos",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (java.time.format.DateTimeParseException ex) {
+        JOptionPane.showMessageDialog(dialogo,
+            "Formato de fecha u hora inválido",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(dialogo,
+            "Error: " + ex.getMessage(),
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+    }
+});
+
         
         btnCancelar.addActionListener(e -> dialogo.dispose());
         
@@ -511,6 +572,7 @@ public class CitaView extends JPanel {
             }
         }
         
+        
         // Confirmar cancelación
         String mensaje = String.format(
             "¿Está seguro que desea cancelar esta cita?\n\n" +
@@ -543,6 +605,130 @@ public class CitaView extends JPanel {
             }
         }
     }
+    
+    private void eliminarCita() {
+    int filaSeleccionada = tablaCitas.getSelectedRow();
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(this, 
+            "Seleccione una cita para eliminar", 
+            "Advertencia", 
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    int idCita = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+    Cita cita = controller.obtenerCitaPorId(idCita);
+    
+    // Validaciones importantes
+    if (cita == null) {
+        JOptionPane.showMessageDialog(this, 
+            "La cita seleccionada no existe", 
+            "Error", 
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // Obtener información de factura asociada
+    model.Factura factura = controller.obtenerFacturaPorCita(idCita);
+    String infoFactura = "";
+    if (factura != null) {
+        infoFactura = String.format(
+            "\nFactura asociada #%d\nMonto: $%.2f\n",
+            factura.getId(),
+            factura.getMonto()
+        );
+    }
+    
+    // Mensaje de confirmación con TODA la información
+    String mensaje = String.format(
+        "⚠️ ⚠️ ⚠️ ELIMINACIÓN PERMANENTE ⚠️ ⚠️ ⚠️\n\n" +
+        "ESTA ACCIÓN NO SE PUEDE DESHACER\n\n" +
+        "Información de la cita a eliminar:\n" +
+        "• ID: %d\n" +
+        "• Paciente: %s\n" +
+        "• Odontólogo: %s\n" +
+        "• Fecha: %s\n" +
+        "• Hora: %s\n" +
+        "• Motivo: %s\n" +
+        "• Estado: %s\n" +
+        "%s" +
+        "\n¿Está absolutamente seguro que desea ELIMINAR PERMANENTEMENTE esta cita?\n\n" +
+        "ADVERTENCIA: Se eliminarán:\n" +
+        "✓ La cita\n" +
+        "✓ La factura asociada (si existe)\n" +
+        "✓ Los registros del horario\n" +
+        "✓ Todos los datos relacionados",
+        cita.getId(),
+        cita.getPaciente().getNombre(),
+        cita.getOdontologo().getNombre(),
+        cita.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+        cita.getHora().format(DateTimeFormatter.ofPattern("HH:mm")),
+        cita.getMotivo(),
+        cita.getEstado(),
+        infoFactura
+    );
+    
+    // Panel personalizado con checkbox de confirmación
+    JCheckBox confirmCheck = new JCheckBox("He leído la advertencia y deseo continuar");
+    Object[] options = {"ELIMINAR", "CANCELAR"};
+    
+    JPanel panel = new JPanel(new BorderLayout(10, 10));
+    panel.add(new JLabel("<html><body style='width: 350px'>" + mensaje.replace("\n", "<br>") + "</body></html>"), BorderLayout.CENTER);
+    panel.add(confirmCheck, BorderLayout.SOUTH);
+    
+    int opcion = JOptionPane.showOptionDialog(
+        this,
+        panel,
+        "CONFIRMAR ELIMINACIÓN PERMANENTE",
+        JOptionPane.DEFAULT_OPTION,
+        JOptionPane.WARNING_MESSAGE,
+        null,
+        options,
+        options[1] // Por defecto seleccionar CANCELAR
+    );
+    
+    // Solo proceder si seleccionó ELIMINAR y marcó el checkbox
+    if (opcion == 0 && confirmCheck.isSelected()) {
+        try {
+            // Usar el método de eliminación completa
+            if (controller.eliminarCitaCompletamente(idCita)) {
+                JOptionPane.showMessageDialog(this,
+                    String.format(
+                        "✅ ELIMINACIÓN EXITOSA\n\n" +
+                        "Cita #%d eliminada completamente:\n" +
+                        "• Cita removida de la base de datos\n" +
+                        "• Factura eliminada (si existía)\n" +
+                        "• Horario liberado\n" +
+                        "• Cambios guardados en disco\n\n" +
+                        "La tabla se actualizará automáticamente",
+                        idCita
+                    ),
+                    "Eliminación Exitosa",
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+                // Recargar datos frescos desde disco
+                cargarDatos();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "❌ No se pudo eliminar la cita.\n" +
+                    "Puede que ya haya sido eliminada o haya un error en el sistema.",
+                    "Error de Eliminación",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                "❌ Error inesperado al eliminar:\n" + ex.getMessage(),
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+    } else if (opcion == 0 && !confirmCheck.isSelected()) {
+        JOptionPane.showMessageDialog(this,
+            "Debe marcar la casilla de confirmación para proceder con la eliminación.",
+            "Confirmación Requerida",
+            JOptionPane.WARNING_MESSAGE);
+    }
+}
     
     private void mostrarDialogoRegistrarLlegada() {
         int filaSeleccionada = tablaCitas.getSelectedRow();
@@ -636,6 +822,112 @@ public class CitaView extends JPanel {
             }
         }
     }
+   private void mostrarDialogoAsignarMonto() {
+    int filaSeleccionada = tablaCitas.getSelectedRow();
+    if (filaSeleccionada == -1) {
+        JOptionPane.showMessageDialog(this, 
+            "Seleccione una cita para asignar monto", 
+            "Advertencia", 
+            JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+    
+    int idCita = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+    Cita cita = controller.obtenerCitaPorId(idCita);
+    
+    if (cita == null) {
+        JOptionPane.showMessageDialog(this, 
+            "La cita seleccionada no existe", 
+            "Error", 
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // Validar estado de la cita
+    if (cita.getEstado() == EstadoCita.CANCELADA) {
+        JOptionPane.showMessageDialog(this,
+            "No se puede asignar monto a una cita CANCELADA",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    if (cita.getEstado() == EstadoCita.AUSENTE) {
+        JOptionPane.showMessageDialog(this,
+            "No se puede asignar monto a una cita donde el paciente estuvo AUSENTE",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // Obtener factura actual
+    model.Factura facturaActual = controller.obtenerFacturaPorCita(idCita);
+    String montoActual = facturaActual != null ? 
+        String.format("%.2f", facturaActual.getMonto()) : "0.00";
+    
+    // Mostrar información de la cita
+    String mensaje = String.format(
+        "Cita #%d\n" +
+        "Paciente: %s\n" +
+        "Odontólogo: %s\n" +
+        "Fecha: %s\n" +
+        "Estado: %s\n\n" +
+        "Monto actual: $%s\n\n" +
+        "Ingrese el nuevo monto:",
+        cita.getId(),
+        cita.getPaciente().getNombre(),
+        cita.getOdontologo().getNombre(),
+        cita.getFecha().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+        cita.getEstado(),
+        montoActual
+    );
+    
+    String inputMonto = JOptionPane.showInputDialog(this, mensaje, montoActual);
+    
+    if (inputMonto != null && !inputMonto.trim().isEmpty()) {
+        try {
+            double nuevoMonto = Double.parseDouble(inputMonto.trim());
+            
+            if (nuevoMonto < 0) {
+                JOptionPane.showMessageDialog(this,
+                    "El monto no puede ser negativo",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Actualizar monto en la factura
+            if (controller.actualizarMontoFactura(idCita, nuevoMonto)) {
+                JOptionPane.showMessageDialog(this,
+                    String.format(
+                        "Monto actualizado exitosamente\n\n" +
+                        "Monto anterior: $%.2f\n" +
+                        "Monto nuevo: $%.2f\n\n" +
+                        "Factura guardada automáticamente",
+                        Double.parseDouble(montoActual),
+                        nuevoMonto
+                    ),
+                    "Éxito",
+                    JOptionPane.INFORMATION_MESSAGE);
+                cargarDatos(); // Actualizar tabla
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "No se pudo actualizar el monto.\n" +
+                    "Verifique que la factura exista.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this,
+                "Formato de monto inválido.\n" +
+                "Use números decimales (ej: 150.00 o 150)",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}
+
     
     private void evaluarAsistencia() {
         int filaSeleccionada = tablaCitas.getSelectedRow();

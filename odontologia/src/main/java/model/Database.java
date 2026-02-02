@@ -1,5 +1,6 @@
 package model;
 
+import util.DataPersistence;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -10,19 +11,59 @@ public class Database {
     private Map<Integer, Odontologo> odontologos = new HashMap<>();
     private Map<Integer, Cita> citas = new HashMap<>();
     private Map<Integer, Factura> facturas = new HashMap<>();
-    private Map<Integer, Horario> horarios = new HashMap<>(); // NUEVO
+    private Map<Integer, Horario> horarios = new HashMap<>();
     
     private int nextCitaId = 1;
     private int nextFacturaId = 1;
-    private int nextHorarioId = 1; // NUEVO
+    private int nextHorarioId = 1;
 
     private Database() {
-        poblarDatosFalsos();
+        cargarDatos();
     }
 
     public static synchronized Database getInstance() {
         if (instance == null) instance = new Database();
         return instance;
+    }
+    
+    /**
+     * Carga los datos desde archivos JSON o genera datos de prueba si no existen
+     */
+    private void cargarDatos() {
+        if (DataPersistence.existenDatosGuardados()) {
+            // Cargar desde archivos
+            System.out.println("📂 Cargando datos guardados...");
+            pacientes = DataPersistence.cargarPacientes();
+            odontologos = DataPersistence.cargarOdontologos();
+            citas = DataPersistence.cargarCitas();
+            facturas = DataPersistence.cargarFacturas();
+            horarios = DataPersistence.cargarHorarios();
+            
+            // Cargar contadores
+            Map<String, Integer> counters = DataPersistence.cargarContadores();
+            nextCitaId = counters.getOrDefault("nextCitaId", 1);
+            nextFacturaId = counters.getOrDefault("nextFacturaId", 1);
+            nextHorarioId = counters.getOrDefault("nextHorarioId", 1);
+            
+            System.out.println("✅ Datos cargados exitosamente");
+            System.out.println("   - Pacientes: " + pacientes.size());
+            System.out.println("   - Odontólogos: " + odontologos.size());
+            System.out.println("   - Citas: " + citas.size());
+            System.out.println("   - Horarios: " + horarios.size());
+        } else {
+            // Primera ejecución - generar datos de prueba
+            System.out.println("🆕 Primera ejecución - generando datos de prueba...");
+            poblarDatosFalsos();
+            guardarDatos(); // Guardar los datos iniciales
+            System.out.println("✅ Datos de prueba generados y guardados");
+        }
+    }
+    
+    /**
+     * Guarda todos los datos en archivos JSON
+     */
+    public void guardarDatos() {
+        DataPersistence.guardarTodo(this);
     }
 
     private void poblarDatosFalsos() {
@@ -155,8 +196,71 @@ public class Database {
         f3.setCita(c3);
         f3.setPaciente(p1);
         facturas.put(f3.getId(), f3);
+         
     }
+
+public void recargarDesdeArchivos() {
+    if (DataPersistence.existenDatosGuardados()) {
+        pacientes = DataPersistence.cargarPacientes();
+        odontologos = DataPersistence.cargarOdontologos();
+        citas = DataPersistence.cargarCitas();
+        facturas = DataPersistence.cargarFacturas();
+        horarios = DataPersistence.cargarHorarios();
+
+        Map<String, Integer> counters = DataPersistence.cargarContadores();
+        nextCitaId = counters.getOrDefault("nextCitaId", nextCitaId);
+        nextFacturaId = counters.getOrDefault("nextFacturaId", nextFacturaId);
+        nextHorarioId = counters.getOrDefault("nextHorarioId", nextHorarioId);
+    }
+}
+public void recalcularNextCitaId() {
+    if (citas.isEmpty()) {
+        nextCitaId = 1;
+        System.out.println("🔄 NextCitaId establecido a 1 (no hay citas)");
+    } else {
+        int maxId = citas.keySet().stream()
+                .mapToInt(Integer::intValue)
+                .max()
+                .orElse(0);
+        nextCitaId = maxId + 1;
+        System.out.println("🔄 NextCitaId recalculado: " + nextCitaId);
+    }
+}
+
+public boolean eliminarCita(int idCita) {
+    Cita cita = citas.remove(idCita);
+    if (cita != null) {
+        // Liberar el horario asociado
+        liberarHorario(cita.getFecha(), cita.getHora(), cita.getOdontologo());
+        
+        // Eliminar factura asociada si existe
+        eliminarFacturaPorCita(idCita);
+        recalcularNextCitaId();
+        guardarDatos(); // Guardar cambios
+        return true;
+    }
+    return false;
+}
+
+private void liberarHorario(LocalDate fecha, LocalTime hora, Odontologo odontologo) {
+    horarios.values().stream()
+            .filter(h -> h.getFecha().equals(fecha) 
+                    && h.getHora().equals(hora)
+                    && h.getOdontologo().getId() == odontologo.getId())
+            .findFirst()
+            .ifPresent(Horario::marcarDisponible);
+}
+
+private void eliminarFacturaPorCita(int idCita) {
+    facturas.entrySet().removeIf(entry -> 
+        entry.getValue().getCita() != null && 
+        entry.getValue().getCita().getId() == idCita
+    );
+}
+
     
+
+
     // ========== MÉTODOS AUXILIARES PARA HORARIOS ==========
     
     private void crearHorario(LocalDate fecha, LocalTime hora, Odontologo odontologo) {
@@ -181,6 +285,7 @@ public class Database {
     // ========== GETTERS Y MÉTODOS DE ACCESO ==========
     
     public Factura getFacturaById(int id) {
+        recargarDesdeArchivos();
         return facturas.get(id);
     }
 
@@ -204,11 +309,29 @@ public class Database {
         return nextHorarioId++;
     }
     
+    public int generarProximoIdFactura() {
+        return nextFacturaId++;
+    }
+    
     public Map<Integer, Paciente> getPacientes() { 
         return pacientes; 
     }
     
     public Map<Integer, Odontologo> getOdontologos() { 
         return odontologos; 
+    }
+    
+    // ========== MÉTODOS PARA OBTENER CONTADORES (usados por DataPersistence) ==========
+    
+    public int getNextCitaId() {
+        return nextCitaId;
+    }
+    
+    public int getNextFacturaId() {
+        return nextFacturaId;
+    }
+    
+    public int getNextHorarioId() {
+        return nextHorarioId;
     }
 }

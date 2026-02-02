@@ -1,0 +1,16 @@
+{
+  "1": {
+    "especialidad": "Cirugía Maxilofacial",
+    "numeroColegiado": 0,
+    "id": 1,
+    "nombre": "Dr. Gregory House",
+    "telefono": 88881111
+  },
+  "2": {
+    "especialidad": "Ortodoncia",
+    "numeroColegiado": 0,
+    "id": 2,
+    "nombre": "Dra. Meredith Grey",
+    "telefono": 88882222
+  }
+}
