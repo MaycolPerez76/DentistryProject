@@ -1,8 +1,8 @@
 package view;
 
+import controller.FacturaController;
 import javax.swing.*;
 import java.awt.*;
-import viewFrame.FacturaView;
 
 public class MenuPrincipalView extends JFrame {
 
@@ -52,7 +52,7 @@ public class MenuPrincipalView extends JFrame {
         );
 
         btnOdontologos.addActionListener(e ->
-                cambiarVista(crearPanel("Gestión de Odontólogos"))
+                cambiarVista(crearPanelOdontologia())
         );
 
         btnCitas.addActionListener(e ->
@@ -122,36 +122,70 @@ public class MenuPrincipalView extends JFrame {
         return panel;
     }
 
-    // ===== Panel Citas =====
+    // ===== Panel Citas - INTEGRADO CON CitaView COMPLETO =====
     private JPanel crearPanelCitas() {
-        JPanel panel = new JPanel(new BorderLayout());
-
-        JLabel titulo = new JLabel("Gestión de Citas", SwingConstants.CENTER);
-        titulo.setFont(new Font("Segoe UI", Font.BOLD, 26));
-        panel.add(titulo, BorderLayout.NORTH);
-
-        JPanel opciones = new JPanel(new GridLayout(3, 1, 0, 15));
-        opciones.setBorder(BorderFactory.createEmptyBorder(60, 200, 60, 200));
-
-        opciones.add(new JButton("Crear cita"));
-        opciones.add(new JButton("Reprogramar cita"));
-        opciones.add(new JButton("Enviar recordatorio"));
-
-        panel.add(opciones, BorderLayout.CENTER);
-
-        return panel;
+        // Crear un panel contenedor con BorderLayout
+        JPanel panelContenedor = new JPanel(new BorderLayout());
+        panelContenedor.setBackground(Color.WHITE);
+        
+        // Crear una instancia del CitaView completo
+        CitaView citaView = new CitaView();
+        
+        // Agregar el CitaView al centro del contenedor
+        panelContenedor.add(citaView, BorderLayout.CENTER);
+        
+        return panelContenedor;
     }
 
-    // ===== Panel Factura ===== (MODIFICADO)
+    // ===== Panel Factura =====
     private JPanel crearPanelFactura() {
+        // 1. Crear el contenedor principal
+        JPanel panelContenedor = new JPanel(new BorderLayout());
+        panelContenedor.setBackground(Color.WHITE);
+
+        // 2. Crear la Vista y el Controlador
+        FacturaView facturaView = new FacturaView();
+        FacturaController controller = new FacturaController(facturaView);
+
+        // 3. Crear una pequeña barra de búsqueda para probar el controlador
+        JPanel barraBusqueda = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        barraBusqueda.setBackground(Color.WHITE);
+        
+        JLabel lblBuscar = new JLabel("ID Cita/Factura: ");
+        JTextField txtBusqueda = new JTextField(10);
+        JButton btnBuscar = new JButton("Cargar Datos");
+
+        // Acción del botón: Llama al controlador
+        btnBuscar.addActionListener(e -> {
+            try {
+                int id = Integer.parseInt(txtBusqueda.getText());
+                controller.mostrarFacturaPorId(id);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID numérico válido.");
+            }
+        });
+
+        barraBusqueda.add(lblBuscar);
+        barraBusqueda.add(txtBusqueda);
+        barraBusqueda.add(btnBuscar);
+
+        // 4. Organizar en el panel: Buscador arriba, Factura al centro
+        panelContenedor.add(barraBusqueda, BorderLayout.NORTH);
+        panelContenedor.add(facturaView, BorderLayout.CENTER);
+
+        return panelContenedor;
+    }
+
+    // ===== Panel Odontologia ===== 
+    private JPanel crearPanelOdontologia() {
         // Crear un panel contenedor con BorderLayout
         JPanel panel = new JPanel(new BorderLayout());
         
-        // Crear una instancia del panel Factura
-        FacturaView facturaPanel = new FacturaView();
+        // Crear una instancia del panel Agenda
+        OdontologiaView odontologiaView = new OdontologiaView();
         
-        // Agregar el panel Factura al centro
-        panel.add(facturaPanel, BorderLayout.CENTER);
+        // Agregar el panel Agenda al centro
+        panel.add(odontologiaView, BorderLayout.CENTER);
         
         return panel;
     }
@@ -179,4 +213,5 @@ public class MenuPrincipalView extends JFrame {
 
         return panel;
     }
+    
 }

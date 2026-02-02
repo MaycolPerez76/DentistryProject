@@ -3,24 +3,24 @@ package model;
 
 public class Paciente extends Persona {
 
-    private int numeroExpediente;
+    private String numeroExpediente;
 
     public Paciente() {
     }
 
     // Constructor con parámetros
-    public Paciente(int id, String nombre, int telefono, int numeroExpediente) {
+    public Paciente(int id, String nombre, int telefono, String numeroExpediente) {
         super(id, nombre, telefono);
         this.numeroExpediente = numeroExpediente;
     }
 
     
     // Getters y Setters
-    public int getNumeroExpediente() {
+    public String getNumeroExpediente() {
         return numeroExpediente;
     }
 
-    public void setNumeroExpediente(int numeroExpediente) {
+    public void setNumeroExpediente(String numeroExpediente) {
         this.numeroExpediente = numeroExpediente;
     }
 

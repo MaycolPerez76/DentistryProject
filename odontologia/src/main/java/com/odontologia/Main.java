@@ -1,6 +1,7 @@
 package com.odontologia;
 
 
+
 import view.MenuPrincipalView;
 
 
@@ -11,15 +12,14 @@ public class Main {
 
     public static void main(String[] args) {
 
+       
         
-        
+ 
+                     
           javax.swing.SwingUtilities.invokeLater(() -> {
             new MenuPrincipalView();
         });
     
-        
-        
-        
         
         /*
         MenuPrincipalView menu = new MenuPrincipalView();
