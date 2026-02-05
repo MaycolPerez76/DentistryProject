@@ -5,9 +5,6 @@ package com.odontologia;
 import view.MenuPrincipalView;
 
 
-
-
-
 public class Main {
 
     public static void main(String[] args) {

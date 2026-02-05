@@ -4,6 +4,10 @@ import javax.swing.JOptionPane;
 import model.*;
 import view.FacturaView;
 
+/**
+ * Controlador de Factura
+ * ✅ CORREGIDO: Ahora busca facturas por ID de CITA correctamente
+ */
 public class FacturaController {
     private Database db = Database.getInstance();
     private FacturaView view;
@@ -13,16 +17,39 @@ public class FacturaController {
     }
     
     /**
-     * Método principal para mostrar una factura en la vista por su ID
+     * ✅ CORREGIDO: Muestra una factura buscándola por el ID de la CITA
+     * @param idCita El ID de la cita (no el ID de la factura)
      */
-    public void mostrarFacturaPorId(int idFactura) {
-        // Buscar la factura por ID
+    public void mostrarFacturaPorIdCita(int idCita) {
+        // ✅ Usar el nuevo método getFacturaPorIdCita()
+        Factura factura = db.getFacturaPorIdCita(idCita);
+        
+        if (factura != null) {
+            cargarDatosEnVista(factura);
+            System.out.println("✅ Factura encontrada para cita #" + idCita + " -> Factura #" + factura.getId());
+        } else {
+            limpiarVista();
+            System.err.println("❌ No se encontró factura para la cita #" + idCita);
+            JOptionPane.showMessageDialog(view, 
+                "No se encontró factura para la cita #" + idCita,
+                "Factura no encontrada", 
+                JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    /**
+     * Muestra una factura buscándola por el ID de la FACTURA (método alternativo)
+     * @param idFactura El ID de la factura directamente
+     */
+    public void mostrarFacturaPorIdFactura(int idFactura) {
         Factura factura = db.getFacturaById(idFactura);
         
         if (factura != null) {
             cargarDatosEnVista(factura);
+            System.out.println("✅ Factura #" + idFactura + " encontrada");
         } else {
             limpiarVista();
+            System.err.println("❌ Factura #" + idFactura + " no encontrada");
             JOptionPane.showMessageDialog(view, 
                 "Factura #" + idFactura + " no encontrada.",
                 "Error", 
@@ -31,7 +58,7 @@ public class FacturaController {
     }
     
     /**
-     * Carga los datos de una factura en la vista
+     * ✅ CORREGIDO: Carga los datos de una factura en la vista
      */
     private void cargarDatosEnVista(Factura factura) {
         try {
@@ -67,8 +94,16 @@ public class FacturaController {
                 view.txtTotal.setText("$0.00");
             }
             
+            System.out.println(" Factura cargada en vista:");
+            System.out.println("   - Paciente: " + paciente.getNombre());
+            System.out.println("   - Fecha: " + cita.getFecha());
+            System.out.println("   - Estado: " + cita.getEstado());
+            System.out.println("   - Monto: $" + factura.getMonto());
+            
         } catch (Exception e) {
             limpiarVista();
+            System.err.println("❌ Error al cargar factura: " + e.getMessage());
+            e.printStackTrace();
             JOptionPane.showMessageDialog(view,
                 "Error al cargar la factura: " + e.getMessage(),
                 "Error",
@@ -87,5 +122,28 @@ public class FacturaController {
         view.txtTelefono.setText("");
         view.txtEstado.setText("");
         view.txtTotal.setText("$0.00");
+    }
+    
+    /**
+     * ✅ NUEVO: Actualiza el monto de una factura buscándola por ID de cita
+     */
+    public boolean actualizarMontoPorIdCita(int idCita, double nuevoMonto) {
+        Factura factura = db.getFacturaPorIdCita(idCita);
+        
+        if (factura != null) {
+            factura.setMonto(nuevoMonto);
+            db.guardarDatos();
+            System.out.println("✅ Monto de factura actualizado: $" + nuevoMonto);
+            
+            // Recargar la vista si está mostrando esta factura
+            if (view.txtTitular.getText() != null && !view.txtTitular.getText().isEmpty()) {
+                cargarDatosEnVista(factura);
+            }
+            
+            return true;
+        }
+        
+        System.err.println("❌ No se encontró factura para actualizar monto");
+        return false;
     }
 }
