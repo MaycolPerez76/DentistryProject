@@ -12,7 +12,7 @@ public class Database {
     private Map<Integer, Cita> citas = new HashMap<>();
     private Map<Integer, Factura> facturas = new HashMap<>();
     private Map<Integer, Horario> horarios = new HashMap<>();
-    
+    private int nextPacienteId = 103; 
     private int nextCitaId = 1;
     private int nextFacturaId = 1;
     private int nextHorarioId = 1;
@@ -30,34 +30,37 @@ public class Database {
      * Carga los datos desde archivos JSON o genera datos de prueba si no existen
      */
     private void cargarDatos() {
-        if (DataPersistence.existenDatosGuardados()) {
-            // Cargar desde archivos
-            System.out.println("📂 Cargando datos guardados...");
-            pacientes = DataPersistence.cargarPacientes();
-            odontologos = DataPersistence.cargarOdontologos();
-            citas = DataPersistence.cargarCitas();
-            facturas = DataPersistence.cargarFacturas();
-            horarios = DataPersistence.cargarHorarios();
-            
-            // Cargar contadores
-            Map<String, Integer> counters = DataPersistence.cargarContadores();
-            nextCitaId = counters.getOrDefault("nextCitaId", 1);
-            nextFacturaId = counters.getOrDefault("nextFacturaId", 1);
-            nextHorarioId = counters.getOrDefault("nextHorarioId", 1);
-            
-            System.out.println("✅ Datos cargados exitosamente");
-            System.out.println("   - Pacientes: " + pacientes.size());
-            System.out.println("   - Odontólogos: " + odontologos.size());
-            System.out.println("   - Citas: " + citas.size());
-            System.out.println("   - Horarios: " + horarios.size());
-        } else {
-            // Primera ejecución - generar datos de prueba
-            System.out.println("🆕 Primera ejecución - generando datos de prueba...");
-            poblarDatosFalsos();
-            guardarDatos(); // Guardar los datos iniciales
-            System.out.println("✅ Datos de prueba generados y guardados");
-        }
+    if (DataPersistence.existenDatosGuardados()) {
+        // Cargar desde archivos
+        System.out.println("📂 Cargando datos guardados...");
+        pacientes = DataPersistence.cargarPacientes();
+        odontologos = DataPersistence.cargarOdontologos();
+        citas = DataPersistence.cargarCitas();
+        facturas = DataPersistence.cargarFacturas();
+        horarios = DataPersistence.cargarHorarios();
+        
+        // Cargar contadores
+        Map<String, Integer> counters = DataPersistence.cargarContadores();
+        nextCitaId = counters.getOrDefault("nextCitaId", 1);
+        nextFacturaId = counters.getOrDefault("nextFacturaId", 1);
+        nextHorarioId = counters.getOrDefault("nextHorarioId", 1);
+        nextPacienteId = counters.getOrDefault("nextPacienteId", 103); // AGREGAR ESTA LÍNEA
+        
+        System.out.println("✅ Datos cargados exitosamente");
+        System.out.println("   - Pacientes: " + pacientes.size());
+        System.out.println("   - Odontólogos: " + odontologos.size());
+        System.out.println("   - Citas: " + citas.size());
+        System.out.println("   - Horarios: " + horarios.size());
+    } else {
+        // Primera ejecución - generar datos de prueba
+        System.out.println("🆕 Primera ejecución - generando datos de prueba...");
+        poblarDatosFalsos();
+        guardarDatos(); // Guardar los datos iniciales
+        System.out.println("✅ Datos de prueba generados y guardados");
     }
+}
+
+
     
     /**
      * Guarda todos los datos en archivos JSON
@@ -196,10 +199,10 @@ public class Database {
         f3.setCita(c3);
         f3.setPaciente(p1);
         facturas.put(f3.getId(), f3);
-         
+          nextPacienteId = 103;
     }
 
-public void recargarDesdeArchivos() {
+    public void recargarDesdeArchivos() {
     if (DataPersistence.existenDatosGuardados()) {
         pacientes = DataPersistence.cargarPacientes();
         odontologos = DataPersistence.cargarOdontologos();
@@ -211,8 +214,10 @@ public void recargarDesdeArchivos() {
         nextCitaId = counters.getOrDefault("nextCitaId", nextCitaId);
         nextFacturaId = counters.getOrDefault("nextFacturaId", nextFacturaId);
         nextHorarioId = counters.getOrDefault("nextHorarioId", nextHorarioId);
+        nextPacienteId = counters.getOrDefault("nextPacienteId", nextPacienteId); // AGREGAR ESTA LÍNEA
     }
 }
+
 public void recalcularNextCitaId() {
     if (citas.isEmpty()) {
         nextCitaId = 1;
@@ -312,7 +317,13 @@ private void eliminarFacturaPorCita(int idCita) {
     public int generarProximoIdFactura() {
         return nextFacturaId++;
     }
-    
+    public int generarProximoIdPaciente() {
+    return nextPacienteId++;
+}
+public int getNextPacienteId() {
+    return nextPacienteId;
+}
+
     public Map<Integer, Paciente> getPacientes() { 
         return pacientes; 
     }

@@ -74,40 +74,46 @@ public class DataPersistence {
     /**
      * Guarda los contadores de IDs
      */
-    public static boolean guardarContadores(int nextCitaId, int nextFacturaId, int nextHorarioId) {
-        Map<String, Integer> counters = new HashMap<>();
-        counters.put("nextCitaId", nextCitaId);
-        counters.put("nextFacturaId", nextFacturaId);
-        counters.put("nextHorarioId", nextHorarioId);
-        return guardarDatos(COUNTERS_FILE, counters);
-    }
+   
+    public static boolean guardarContadores(int nextCitaId, int nextFacturaId, int nextHorarioId, int nextPacienteId) {
+    Map<String, Integer> counters = new HashMap<>();
+    counters.put("nextCitaId", nextCitaId);
+    counters.put("nextFacturaId", nextFacturaId);
+    counters.put("nextHorarioId", nextHorarioId);
+    counters.put("nextPacienteId", nextPacienteId); // NUEVA LÍNEA
+    return guardarDatos(COUNTERS_FILE, counters);
+}
+
+
     
     /**
      * Guarda todos los datos de la base de datos
      */
     public static boolean guardarTodo(Database db) {
-        initializeDataDirectory();
-        
-        boolean exito = true;
-        exito &= guardarCitas(db.getCitas());
-        exito &= guardarPacientes(db.getPacientes());
-        exito &= guardarOdontologos(db.getOdontologos());
-        exito &= guardarHorarios(db.getHorarios());
-        exito &= guardarFacturas(db.getFacturas());
-        exito &= guardarContadores(
-            db.getNextCitaId(), 
-            db.getNextFacturaId(), 
-            db.getNextHorarioId()
-        );
-        
-        if (exito) {
-            System.out.println("✓ Todos los datos guardados exitosamente");
-        } else {
-            System.err.println("✗ Error al guardar algunos datos");
-        }
-        
-        return exito;
+    initializeDataDirectory();
+    
+    boolean exito = true;
+    exito &= guardarCitas(db.getCitas());
+    exito &= guardarPacientes(db.getPacientes());
+    exito &= guardarOdontologos(db.getOdontologos());
+    exito &= guardarHorarios(db.getHorarios());
+    exito &= guardarFacturas(db.getFacturas());
+    exito &= guardarContadores(
+        db.getNextCitaId(), 
+        db.getNextFacturaId(), 
+        db.getNextHorarioId(),
+        db.getNextPacienteId()  // NUEVA LÍNEA
+    );
+    
+    if (exito) {
+        System.out.println("✓ Todos los datos guardados exitosamente");
+    } else {
+        System.err.println("✗ Error al guardar algunos datos");
     }
+    
+    return exito;
+}
+
     
     // ========== CARGAR DATOS ==========
     
@@ -160,18 +166,20 @@ public class DataPersistence {
      * Carga los contadores de IDs
      */
     public static Map<String, Integer> cargarContadores() {
-        Type type = new TypeToken<Map<String, Integer>>(){}.getType();
-        Map<String, Integer> counters = cargarDatos(COUNTERS_FILE, type);
-        
-        if (counters == null) {
-            counters = new HashMap<>();
-            counters.put("nextCitaId", 1);
-            counters.put("nextFacturaId", 1);
-            counters.put("nextHorarioId", 1);
-        }
-        
-        return counters;
+    Type type = new TypeToken<Map<String, Integer>>(){}.getType();
+    Map<String, Integer> counters = cargarDatos(COUNTERS_FILE, type);
+    
+    if (counters == null) {
+        counters = new HashMap<>();
+        counters.put("nextCitaId", 1);
+        counters.put("nextFacturaId", 1);
+        counters.put("nextHorarioId", 1);
+        counters.put("nextPacienteId", 103); // NUEVA LÍNEA
     }
+    
+    return counters;
+}
+
     
     // ========== MÉTODOS AUXILIARES GENÉRICOS ==========
     

@@ -47,10 +47,9 @@ public class MenuPrincipalView extends JFrame {
         cambiarVista(crearPanelInicio());
 
         // ===== Acciones =====
-        btnPacientes.addActionListener(e ->
-                cambiarVista(crearPanel("Gestión de Pacientes"))
-        );
-
+       btnPacientes.addActionListener(e ->
+    cambiarVista(crearPanelPacientes())
+);
         btnOdontologos.addActionListener(e ->
                 cambiarVista(crearPanelOdontologia())
         );
@@ -121,7 +120,16 @@ public class MenuPrincipalView extends JFrame {
 
         return panel;
     }
-
+private JPanel crearPanelPacientes() {
+    JPanel panelContenedor = new JPanel(new BorderLayout());
+    panelContenedor.setBackground(Color.WHITE);
+    
+    PacienteView pacienteView = new PacienteView();
+    
+    panelContenedor.add(pacienteView, BorderLayout.CENTER);
+    
+    return panelContenedor;
+}
     // ===== Panel Citas - INTEGRADO CON CitaView COMPLETO =====
     private JPanel crearPanelCitas() {
         // Crear un panel contenedor con BorderLayout
