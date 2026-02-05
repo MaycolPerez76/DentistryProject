@@ -10,5 +10,11 @@
     "id": 102,
     "nombre": "María García",
     "telefono": 77770002
+  },
+  "103": {
+    "numeroExpediente": "006",
+    "id": 103,
+    "nombre": "fefse",
+    "telefono": 3464534
   }
 }
