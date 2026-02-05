@@ -78,25 +78,5 @@
       "nombre": "Dr. Gregory House",
       "telefono": 88881111
     }
-  },
-  "5": {
-    "id": 5,
-    "fecha": "2026-02-03",
-    "hora": "09:32",
-    "motivo": "Consulta general",
-    "estado": "PENDIENTE",
-    "paciente": {
-      "numeroExpediente": "EXP-001",
-      "id": 101,
-      "nombre": "Juan Pérez",
-      "telefono": 77770001
-    },
-    "odontologo": {
-      "especialidad": "Cirugía Maxilofacial",
-      "numeroColegiado": 0,
-      "id": 1,
-      "nombre": "Dr. Gregory House",
-      "telefono": 88881111
-    }
   }
 }

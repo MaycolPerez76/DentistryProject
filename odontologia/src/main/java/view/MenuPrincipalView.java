@@ -167,7 +167,7 @@ private JPanel crearPanelPacientes() {
         btnBuscar.addActionListener(e -> {
             try {
                 int id = Integer.parseInt(txtBusqueda.getText());
-                controller.mostrarFacturaPorIdFactura(id);
+                controller.mostrarFacturaPorId(id);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Por favor, ingrese un ID numérico válido.");
             }

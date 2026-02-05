@@ -37,25 +37,20 @@ public class FacturaController {
         }
     }
     
-    /**
-     * Muestra una factura buscándola por el ID de la FACTURA (método alternativo)
-     * @param idFactura El ID de la factura directamente
-     */
-    public void mostrarFacturaPorIdFactura(int idFactura) {
-        Factura factura = db.getFacturaById(idFactura);
-        
-        if (factura != null) {
-            cargarDatosEnVista(factura);
-            System.out.println("✅ Factura #" + idFactura + " encontrada");
-        } else {
-            limpiarVista();
-            System.err.println("❌ Factura #" + idFactura + " no encontrada");
-            JOptionPane.showMessageDialog(view, 
-                "Factura #" + idFactura + " no encontrada.",
-                "Error", 
-                JOptionPane.ERROR_MESSAGE);
-        }
+ public void mostrarFacturaPorId(int idCita) {  // Cambiar el nombre del parámetro para claridad
+    // Buscar la factura por ID de CITA, no ID de factura
+    Factura factura = db.getFacturaPorIdCita(idCita);
+    
+    if (factura != null) {
+        cargarDatosEnVista(factura);
+    } else {
+        limpiarVista();
+        JOptionPane.showMessageDialog(view, 
+            "No se encontró factura para la cita #" + idCita,
+            "Error", 
+            JOptionPane.ERROR_MESSAGE);
     }
+}
     
     /**
      * ✅ CORREGIDO: Carga los datos de una factura en la vista

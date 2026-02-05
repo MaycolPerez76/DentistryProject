@@ -111,6 +111,7 @@ public class RecepcionController {
         return db.getFacturaPorIdCita(idCita);
     }
     
+    
     /**
      * Método privado para crear una factura
      */
@@ -124,6 +125,7 @@ public class RecepcionController {
         db.getFacturas().put(factura.getId(), factura);
         System.out.println("📄 Factura #" + factura.getId() + " creada para cita #" + cita.getId());
     }
+    
     
     /**
      * Crea una cita usando un horario predefinido

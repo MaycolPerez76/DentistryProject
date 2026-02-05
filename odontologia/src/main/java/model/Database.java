@@ -263,6 +263,8 @@ private void eliminarFacturaPorCita(int idCita) {
     );
 }
 
+
+
     
 
 
@@ -289,14 +291,17 @@ private void eliminarFacturaPorCita(int idCita) {
 
     // ========== GETTERS Y MÉTODOS DE ACCESO ==========
     
-    public Factura getFacturaById(int id) {
-        recargarDesdeArchivos();
-        return facturas.get(id);
-    }
-
+  
     public Map<Integer, Factura> getFacturas() {
         return facturas;
     }
+    
+    public Factura getFacturaPorIdCita(int idCita) {
+    return facturas.values().stream()
+        .filter(f -> f.getCita() != null && f.getCita().getId() == idCita)
+        .findFirst()
+        .orElse(null);
+}
     
     public Map<Integer, Cita> getCitas() { 
         return citas; 

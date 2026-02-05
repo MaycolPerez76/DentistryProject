@@ -24,18 +24,6 @@ public class Paciente extends Persona {
         this.numeroExpediente = numeroExpediente;
     }
 
-    // Métodos del diagrama
-    public void solicitarCita() {
-        System.out.println("Método solicitarCita no implementado");
-    }
-
-    public void solicitarReprogramacion() {
-        System.out.println("Método solicitarReprogramacion no implementado");
-    }
-
-    public void justificarAusencia() {
-        System.out.println("Método justificarAusencia no implementado");
-    }
 
     @Override
     public String toString() {
