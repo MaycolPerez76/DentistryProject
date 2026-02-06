@@ -55,7 +55,7 @@ public class PacienteView extends JPanel {
         setLayout(new BorderLayout(15, 15));
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         setBackground(new Color(240, 244, 248));
-        setPreferredSize(new Dimension(1200, 800)); // Tamaño preferido más grande
+        setPreferredSize(new Dimension(1200, 800));
         
         // Panel superior: Título y botón principal
         JPanel panelSuperior = crearPanelSuperior();
@@ -76,23 +76,18 @@ public class PacienteView extends JPanel {
     private JPanel crearPanelSuperior() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(new Color(240, 244, 248));
-        panel.setPreferredSize(new Dimension(0, 150)); // Altura fija más compacta
+        panel.setPreferredSize(new Dimension(0, 150));
         
         // Panel de título
         JPanel panelTitulo = new JPanel(new BorderLayout());
         panelTitulo.setBackground(new Color(41, 128, 185));
         panelTitulo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        JLabel lblTitulo = new JLabel("👥 GESTIÓN DE PACIENTES");
+        JLabel lblTitulo = new JLabel("GESTION DE PACIENTES");
         lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 28));
         lblTitulo.setForeground(Color.WHITE);
         panelTitulo.add(lblTitulo, BorderLayout.WEST);
         
-        // Estado del sistema
-        lblEstadoSistema = new JLabel("● Sistema listo");
-        lblEstadoSistema.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        lblEstadoSistema.setForeground(new Color(46, 204, 113));
-        panelTitulo.add(lblEstadoSistema, BorderLayout.EAST);
         
         panel.add(panelTitulo, BorderLayout.NORTH);
         
@@ -131,7 +126,7 @@ public class PacienteView extends JPanel {
         
         panelAccion.add(btnAgregarNuevoPaciente);
         
-                JButton btnEliminar = new JButton("❌ Eliminar");
+                JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setFont(new Font("Arial", Font.BOLD, 11));
         btnEliminar.setBackground(new Color(231, 76, 60));
         btnEliminar.setForeground(Color.WHITE);
@@ -152,7 +147,7 @@ public class PacienteView extends JPanel {
             cargarPacientes();
             actualizarEstadoSistema();
             JOptionPane.showMessageDialog(this,
-                "✅ Lista de pacientes actualizada desde la base de datos",
+                "Lista de pacientes actualizada",
                 "Lista Actualizada",
                 JOptionPane.INFORMATION_MESSAGE);
         });
@@ -176,14 +171,14 @@ public class PacienteView extends JPanel {
         ));
         
         // Título del panel
-        JLabel lblTituloTabla = new JLabel("📋 PACIENTES REGISTRADOS");
+        JLabel lblTituloTabla = new JLabel("PACIENTES REGISTRADOS");
         lblTituloTabla.setFont(new Font("Segoe UI", Font.BOLD, 18));
         lblTituloTabla.setForeground(new Color(52, 73, 94));
         lblTituloTabla.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         panel.add(lblTituloTabla, BorderLayout.NORTH);
         
         // Crear modelo de tabla
-        String[] columnas = {"ID", "Nombre Completo", "Teléfono", "Número de Expediente"};
+        String[] columnas = {"ID", "Nombre Completo", "Telefono", "Número de Expediente"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -263,7 +258,7 @@ public class PacienteView extends JPanel {
         lblSeparador.setForeground(new Color(189, 195, 199));
         panel.add(lblSeparador);
         
-        JLabel lblInfo = new JLabel("Auto-guardado habilitado • Los cambios se guardan automáticamente");
+        JLabel lblInfo = new JLabel("Auto-guardado habilitado • Los cambios se guardan automaticamente");
         lblInfo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         lblInfo.setForeground(new Color(127, 140, 141));
         panel.add(lblInfo);
@@ -329,7 +324,7 @@ public class PacienteView extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 0.3;
-        JLabel lblTelefono = new JLabel("Teléfono:");
+        JLabel lblTelefono = new JLabel("Telefono:");
         lblTelefono.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblTelefono.setForeground(new Color(52, 73, 94));
         panelFormulario.add(lblTelefono, gbc);
@@ -342,14 +337,14 @@ public class PacienteView extends JPanel {
             BorderFactory.createLineBorder(new Color(189, 195, 199), 2),
             BorderFactory.createEmptyBorder(8, 10, 8, 10)
         ));
-        txtTelefono.setToolTipText("Ingrese solo números (ej: 88881234)");
+        txtTelefono.setToolTipText("Ingrese solo numeros (ej: 88881234)");
         panelFormulario.add(txtTelefono, gbc);
         
         // Campo: Número de Expediente
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 0.3;
-        JLabel lblExpediente = new JLabel("Número de Expediente:");
+        JLabel lblExpediente = new JLabel("Numero de Expediente:");
         lblExpediente.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblExpediente.setForeground(new Color(52, 73, 94));
         panelFormulario.add(lblExpediente, gbc);
@@ -362,14 +357,14 @@ public class PacienteView extends JPanel {
             BorderFactory.createLineBorder(new Color(189, 195, 199), 2),
             BorderFactory.createEmptyBorder(8, 10, 8, 10)
         ));
-        txtExpediente.setToolTipText("Código único del paciente (ej: EXP-001)");
+        txtExpediente.setToolTipText("Codigo unico del paciente (ej: EXP-001)");
         panelFormulario.add(txtExpediente, gbc);
         
         // Nota informativa
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
-        JLabel lblNota = new JLabel("<html><i>💡 El número de expediente debe ser único para cada paciente</i></html>");
+        JLabel lblNota = new JLabel("<html><i>💡 El numero de expediente debe ser único para cada paciente</i></html>");
         lblNota.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         lblNota.setForeground(new Color(127, 140, 141));
         panelFormulario.add(lblNota, gbc);
@@ -382,7 +377,7 @@ public class PacienteView extends JPanel {
         panelBotones.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, new Color(236, 240, 241)));
         
         // Botón: Guardar
-        JButton btnGuardar = new JButton("💾 Guardar Paciente");
+        JButton btnGuardar = new JButton("Guardar Paciente");
         btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnGuardar.setBackground(new Color(46, 204, 113));
         btnGuardar.setForeground(Color.WHITE);
@@ -398,7 +393,7 @@ public class PacienteView extends JPanel {
         });
         
         // Botón: Cancelar
-        JButton btnCancelar = new JButton("✖ Cancelar");
+        JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         btnCancelar.setBackground(new Color(231, 76, 60));
         btnCancelar.setForeground(Color.WHITE);
@@ -456,8 +451,8 @@ public class PacienteView extends JPanel {
         // Validar campo: Teléfono
         String telefonoStr = txtTelefono.getText().trim();
         if (telefonoStr.isEmpty()) {
-            mostrarError("El teléfono es obligatorio", 
-                "Por favor ingrese el número de teléfono", txtTelefono);
+            mostrarError("El Telefono es obligatorio", 
+                "Por favor ingrese el numero de telefono", txtTelefono);
             return false;
         }
         
@@ -468,22 +463,22 @@ public class PacienteView extends JPanel {
                 throw new NumberFormatException();
             }
         } catch (NumberFormatException e) {
-            mostrarError("Teléfono inválido", 
-                "El teléfono debe ser un número positivo válido\nEjemplo: 88881234", txtTelefono);
+            mostrarError("Telefono Invalido", 
+                "El telefono debe ser un numero positivo valido\nEjemplo: 88881234", txtTelefono);
             return false;
         }
         
         // Validar campo: Número de Expediente
         String numeroExpediente = txtExpediente.getText().trim().toUpperCase();
         if (numeroExpediente.isEmpty()) {
-            mostrarError("El número de expediente es obligatorio", 
-                "Por favor ingrese un número de expediente único", txtExpediente);
+            mostrarError("El numero de expediente es obligatorio", 
+                "Por favor ingrese un numero de expediente unico", txtExpediente);
             return false;
         }
         
         if (numeroExpediente.length() < 3) {
             mostrarError("Expediente demasiado corto", 
-                "El número de expediente debe tener al menos 3 caracteres", txtExpediente);
+                "El numero de expediente debe tener al menos 3 caracteres", txtExpediente);
             return false;
         }
         
@@ -501,16 +496,16 @@ public class PacienteView extends JPanel {
         if (exito) {
             // Actualizar interfaz
             cargarPacientes();
-            actualizarEstadoSistema("✓ Paciente guardado exitosamente", new Color(46, 204, 113));
+            actualizarEstadoSistema("Paciente guardado", new Color(46, 204, 113));
             
             // Mostrar confirmación
             JOptionPane.showMessageDialog(dialogo,
-                "✅ ¡Paciente registrado exitosamente!\n\n" +
-                "📋 Datos guardados:\n" +
+                "Paciente registrado exitosamente!\n\n" +
+                "Datos guardados:\n" +
                 "   • Nombre: " + nombre + "\n" +
                 "   • Teléfono: " + telefono + "\n" +
                 "   • Expediente: " + numeroExpediente + "\n\n" +
-                "💾 Los datos se han guardado en la base de datos\n" +
+                "Los datos se han guardado en la base de datos\n" +
                 "   y están disponibles para crear citas.",
                 "Registro Exitoso",
                 JOptionPane.INFORMATION_MESSAGE);
@@ -519,10 +514,10 @@ public class PacienteView extends JPanel {
             
         } else {
             // Error: Expediente duplicado
-            actualizarEstadoSistema("✗ Error al guardar", new Color(231, 76, 60));
+            actualizarEstadoSistema("Error al guardar", new Color(231, 76, 60));
             
             mostrarError("Expediente duplicado", 
-                "Ya existe un paciente con el número de expediente:\n" + 
+                "Ya existe un paciente con el numero de expediente:\n" + 
                 numeroExpediente + "\n\nPor favor use un expediente diferente.", 
                 txtExpediente);
             
@@ -562,8 +557,8 @@ public class PacienteView extends JPanel {
         String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
         
         int confirmacion = JOptionPane.showConfirmDialog(this,
-            "¿Está seguro de eliminar al paciente " + nombre + "?",
-            "Confirmar Eliminación",
+            "¿Esta seguro de eliminar al paciente " + nombre + "?",
+            "Confirmar Eliminacion",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE);
         
@@ -572,13 +567,13 @@ public class PacienteView extends JPanel {
             
             if (exito) {
                 JOptionPane.showMessageDialog(this,
-                    "✅ Paciente eliminado exitosamente",
+                    "Paciente eliminado",
                     "Éxito",
                     JOptionPane.INFORMATION_MESSAGE);
                 cargarPacientes();
             } else {
                 JOptionPane.showMessageDialog(this,
-                    "❌ No se puede eliminar. El paciente tiene citas registradas",
+                    "No se puede eliminar. El paciente tiene citas registradas",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             }
@@ -594,8 +589,8 @@ public class PacienteView extends JPanel {
         
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this,
-                "No hay ningún paciente seleccionado",
-                "Información",
+                "No hay ningun paciente seleccionado",
+                "Informacion",
                 JOptionPane.INFORMATION_MESSAGE);
             return;
         }
@@ -628,7 +623,7 @@ public class PacienteView extends JPanel {
         panelTitulo.setBackground(new Color(241, 196, 15));
         panelTitulo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        JLabel lblTitulo = new JLabel("✏️ Editar Paciente #" + id);
+        JLabel lblTitulo = new JLabel("Editar Paciente #" + id);
         lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 22));
         lblTitulo.setForeground(Color.WHITE);
         panelTitulo.add(lblTitulo);
@@ -664,7 +659,7 @@ public class PacienteView extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 0.3;
-        panelFormulario.add(new JLabel("Teléfono:"), gbc);
+        panelFormulario.add(new JLabel("Telefono:"), gbc);
         
         gbc.gridx = 1;
         gbc.weightx = 0.7;
@@ -727,7 +722,7 @@ public class PacienteView extends JPanel {
                 
                 if (exito) {
                     JOptionPane.showMessageDialog(dialogo,
-                        "✅ Paciente actualizado exitosamente",
+                        "Paciente actualizado",
                         "Éxito",
                         JOptionPane.INFORMATION_MESSAGE);
                     cargarPacientes();
@@ -735,19 +730,19 @@ public class PacienteView extends JPanel {
                     dialogo.dispose();
                 } else {
                     JOptionPane.showMessageDialog(dialogo,
-                        "❌ Error: El expediente ya está en uso",
+                        "Error: El expediente ya esta en uso",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(dialogo,
-                    "El teléfono debe ser un número válido",
+                    "El telefono debe ser un numero valido",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             }
         });
         
-        JButton btnCancelar = new JButton("✖ Cancelar");
+        JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         btnCancelar.setBackground(new Color(149, 165, 166));
         btnCancelar.setForeground(Color.WHITE);
@@ -793,20 +788,17 @@ public class PacienteView extends JPanel {
      * Actualiza el estado del sistema en la interfaz
      */
     private void actualizarEstadoSistema() {
-        actualizarEstadoSistema("● Sistema listo", new Color(46, 204, 113));
+        actualizarEstadoSistema("Sistema listo", new Color(46, 204, 113));
     }
     
     /**
      * Actualiza el estado del sistema con mensaje y color personalizados
      */
     private void actualizarEstadoSistema(String mensaje, Color color) {
-        lblEstadoSistema.setText(mensaje);
-        lblEstadoSistema.setForeground(color);
-        
         // Restaurar después de 3 segundos
-        if (!mensaje.equals("● Sistema listo")) {
+        if (!mensaje.equals("Sistema listo")) {
             Timer timer = new Timer(3000, e -> {
-                lblEstadoSistema.setText("● Sistema listo");
+                lblEstadoSistema.setText("Sistema listo");
                 lblEstadoSistema.setForeground(new Color(46, 204, 113));
             });
             timer.setRepeats(false);

@@ -58,25 +58,5 @@
       "nombre": "Dra. Meredith Grey",
       "telefono": 88882222
     }
-  },
-  "4": {
-    "id": 4,
-    "fecha": "2026-02-03",
-    "hora": "03:00",
-    "motivo": "Consulta general",
-    "estado": "CANCELADA",
-    "paciente": {
-      "numeroExpediente": "EXP-001",
-      "id": 101,
-      "nombre": "Juan Pérez",
-      "telefono": 77770001
-    },
-    "odontologo": {
-      "especialidad": "Cirugía Maxilofacial",
-      "numeroColegiado": 0,
-      "id": 1,
-      "nombre": "Dr. Gregory House",
-      "telefono": 88881111
-    }
   }
 }
