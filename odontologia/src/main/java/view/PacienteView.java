@@ -33,7 +33,6 @@ public class PacienteView extends JPanel {
     private JTable tablaPacientes;
     private DefaultTableModel modeloTabla;
     private JLabel lblTotalPacientes;
-    private JLabel lblEstadoSistema;
     
     // ID del paciente seleccionado (para edición)
     private Integer pacienteSeleccionadoId = null;
@@ -45,7 +44,6 @@ public class PacienteView extends JPanel {
         this.controller = new PacienteController();
         inicializarComponentes();
         cargarPacientes();
-        actualizarEstadoSistema();
     }
     
     /**
@@ -145,7 +143,6 @@ public class PacienteView extends JPanel {
         btnRefrescar.setPreferredSize(new Dimension(120, 30));
         btnRefrescar.addActionListener(e -> {
             cargarPacientes();
-            actualizarEstadoSistema();
             JOptionPane.showMessageDialog(this,
                 "Lista de pacientes actualizada",
                 "Lista Actualizada",
@@ -482,8 +479,6 @@ public class PacienteView extends JPanel {
             return false;
         }
         
-        // Actualizar estado del sistema
-        actualizarEstadoSistema("Guardando paciente...", new Color(241, 196, 15));
         
         // Intentar guardar en la base de datos
         // El controlador maneja:
@@ -496,7 +491,6 @@ public class PacienteView extends JPanel {
         if (exito) {
             // Actualizar interfaz
             cargarPacientes();
-            actualizarEstadoSistema("Paciente guardado", new Color(46, 204, 113));
             
             // Mostrar confirmación
             JOptionPane.showMessageDialog(dialogo,
@@ -514,7 +508,6 @@ public class PacienteView extends JPanel {
             
         } else {
             // Error: Expediente duplicado
-            actualizarEstadoSistema("Error al guardar", new Color(231, 76, 60));
             
             mostrarError("Expediente duplicado", 
                 "Ya existe un paciente con el numero de expediente:\n" + 
@@ -726,7 +719,6 @@ public class PacienteView extends JPanel {
                         "Éxito",
                         JOptionPane.INFORMATION_MESSAGE);
                     cargarPacientes();
-                    actualizarEstadoSistema();
                     dialogo.dispose();
                 } else {
                     JOptionPane.showMessageDialog(dialogo,
@@ -784,27 +776,4 @@ public class PacienteView extends JPanel {
         
     }
     
-    /**
-     * Actualiza el estado del sistema en la interfaz
-     */
-    private void actualizarEstadoSistema() {
-        actualizarEstadoSistema("Sistema listo", new Color(46, 204, 113));
-    }
-    
-    /**
-     * Actualiza el estado del sistema con mensaje y color personalizados
-     */
-    private void actualizarEstadoSistema(String mensaje, Color color) {
-        // Restaurar después de 3 segundos
-        if (!mensaje.equals("Sistema listo")) {
-            Timer timer = new Timer(3000, e -> {
-                lblEstadoSistema.setText("Sistema listo");
-                lblEstadoSistema.setForeground(new Color(46, 204, 113));
-            });
-            timer.setRepeats(false);
-            timer.start();
-        }
-        
-        
-    }
 }

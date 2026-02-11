@@ -34,15 +34,27 @@ public class InformacionView extends JPanel {
         informacion.setText("""
 Sistema Red Odontológica
 
-Aplicación para la gestión de citas médicas odontológicas.
+Aplicación para la gestión de citas médicas odontológicas, implementado por Maycol Perez,
+Alexa Miranda y Eitel Jimenez. Trabajo finalizado el dia 23/02/2026, analizado por
+nuestro docente encargado en la revision y evaluacion del programa.
+
+Con el fin de la creacion de un sistema funcional y adaptable, tanto para
+el cliente como para el desarrollador. Para mas consultas o problemas puede
+comunicarse al correo "sistemaRedOdontologia2026.gmial.com"                 
 
 Módulos disponibles:
 • Pacientes
 • Odontólogos
 • Citas
 • Facturación
+                            
+ FuncionalidadesQu
+ • Creacion y muestra del paciente
+ • Creacion y muestra del odontologo
+ • Creacion y muestra de la cita odontologica
+ • Creacion y muestra de factura de la cita correspondida al paciente                                                     
 
-Versión UI Profesional
+
 """);
 
         JScrollPane scroll = new JScrollPane(informacion);

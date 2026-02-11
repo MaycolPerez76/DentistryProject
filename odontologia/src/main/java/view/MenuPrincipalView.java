@@ -201,22 +201,9 @@ private JPanel crearPanelPacientes() {
     // ===== Panel Información =====
     private JPanel crearPanelInformacion() {
         JPanel panel = new JPanel(new BorderLayout());
+         
+        InformacionView info = new InformacionView();
 
-        JLabel titulo = new JLabel("Información del Sistema", SwingConstants.CENTER);
-        titulo.setFont(new Font("Segoe UI", Font.BOLD, 26));
-        panel.add(titulo, BorderLayout.NORTH);
-
-        JTextArea info = new JTextArea("""
-        Sistema de Gestión Odontológica
-
-        • Administración de pacientes
-        • Control de citas
-        • Recordatorios y reprogramación
-        • Facturación odontológica
-        """);
-
-        info.setEditable(false);
-        info.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         panel.add(info, BorderLayout.CENTER);
 
         return panel;

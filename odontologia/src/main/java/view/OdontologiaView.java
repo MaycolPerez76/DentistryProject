@@ -33,7 +33,6 @@ public class OdontologiaView extends JPanel {
     private JTable tablaOdontologos;
     private DefaultTableModel modeloTabla;
     private JLabel lblTotalOdontologos;
-    private JLabel lblEstadoSistema;
     
     // ID del odontólogo seleccionado (para edición)
     private Integer odontologoSeleccionadoId = null;
@@ -45,7 +44,6 @@ public class OdontologiaView extends JPanel {
         this.controller = new OdontologiaController();
         inicializarComponentes();
         cargarOdontologos();
-        actualizarEstadoSistema();
     }
     
     /**
@@ -125,7 +123,7 @@ public class OdontologiaView extends JPanel {
         panelAccion.add(btnAgregarNuevoOdontologo);
         
         // Botón secundario: Eliminar
-        JButton btnEliminar = new JButton("🗑️ Eliminar");
+        JButton btnEliminar = new JButton("Eliminar");
         btnEliminar.setFont(new Font("Segoe UI", Font.BOLD, 11));
         btnEliminar.setBackground(new Color(231, 76, 60));
         btnEliminar.setForeground(Color.WHITE);
@@ -136,7 +134,7 @@ public class OdontologiaView extends JPanel {
         btnEliminar.addActionListener(e -> eliminarOdontologo());
         
         // Botón secundario: Refrescar
-        JButton btnRefrescar = new JButton("🔄 Refrescar Lista");
+        JButton btnRefrescar = new JButton("Refrescar Lista");
         btnRefrescar.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         btnRefrescar.setBackground(new Color(52, 152, 219));
         btnRefrescar.setForeground(Color.WHITE);
@@ -146,10 +144,9 @@ public class OdontologiaView extends JPanel {
         btnRefrescar.setPreferredSize(new Dimension(140, 35));
         btnRefrescar.addActionListener(e -> {
             cargarOdontologos();
-            actualizarEstadoSistema();
             JOptionPane.showMessageDialog(this,
                 "Lista de odontólogos actualizada correctamente",
-                "✅ Lista Actualizada",
+                "Lista Actualizada",
                 JOptionPane.INFORMATION_MESSAGE);
         });
         
@@ -173,7 +170,7 @@ public class OdontologiaView extends JPanel {
         ));
         
         // Título del panel
-        JLabel lblTituloTabla = new JLabel("📋 ODONTÓLOGOS REGISTRADOS");
+        JLabel lblTituloTabla = new JLabel("ODONTÓLOGOS REGISTRADOS");
         lblTituloTabla.setFont(new Font("Segoe UI", Font.BOLD, 18));
         lblTituloTabla.setForeground(new Color(52, 73, 94));
         lblTituloTabla.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
@@ -265,12 +262,6 @@ public class OdontologiaView extends JPanel {
         // Panel derecho: Estado del sistema
         JPanel panelDerecho = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelDerecho.setBackground(new Color(236, 240, 241));
-        
-        lblEstadoSistema = new JLabel("● Sistema listo");
-        lblEstadoSistema.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        lblEstadoSistema.setForeground(new Color(46, 204, 113));
-        panelDerecho.add(lblEstadoSistema);
-        
         panel.add(panelIzquierdo, BorderLayout.WEST);
         panel.add(panelDerecho, BorderLayout.EAST);
         
@@ -292,7 +283,7 @@ public class OdontologiaView extends JPanel {
         panelTitulo.setBackground(new Color(46, 204, 113));
         panelTitulo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        JLabel lblTitulo = new JLabel("➕ Registrar Nuevo Odontólogo");
+        JLabel lblTitulo = new JLabel("Registrar Nuevo Odontólogo");
         lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 22));
         lblTitulo.setForeground(Color.WHITE);
         panelTitulo.add(lblTitulo);
@@ -377,7 +368,7 @@ public class OdontologiaView extends JPanel {
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
         panelBotones.setBackground(Color.WHITE);
         
-        JButton btnGuardar = new JButton("✅ Guardar");
+        JButton btnGuardar = new JButton("Guardar");
         btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnGuardar.setBackground(new Color(46, 204, 113));
         btnGuardar.setForeground(Color.WHITE);
@@ -436,11 +427,10 @@ public class OdontologiaView extends JPanel {
                     
                     // Actualizar tabla y cerrar diálogo
                     cargarOdontologos();
-                    actualizarEstadoSistema("Odontólogo agregado exitosamente", new Color(46, 204, 113));
                     dialogo.dispose();
                 } else {
                     JOptionPane.showMessageDialog(dialogo,
-                        "❌ Error: El número de colegiado " + numeroColegiado + " ya está registrado.\n" +
+                        "Error: El número de colegiado " + numeroColegiado + " ya está registrado.\n" +
                         "Por favor, verifique el número e intente nuevamente.",
                         "Error de Duplicación",
                         JOptionPane.ERROR_MESSAGE);
@@ -454,7 +444,7 @@ public class OdontologiaView extends JPanel {
             }
         });
         
-        JButton btnCancelar = new JButton("❌ Cancelar");
+        JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         btnCancelar.setBackground(new Color(149, 165, 166));
         btnCancelar.setForeground(Color.WHITE);
@@ -489,7 +479,7 @@ public class OdontologiaView extends JPanel {
         panelTitulo.setBackground(new Color(241, 196, 15));
         panelTitulo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        JLabel lblTitulo = new JLabel("✏️ Editar Odontólogo #" + id);
+        JLabel lblTitulo = new JLabel("Editar Odontólogo #" + id);
         lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 22));
         lblTitulo.setForeground(Color.WHITE);
         panelTitulo.add(lblTitulo);
@@ -624,7 +614,7 @@ public class OdontologiaView extends JPanel {
                 
                 if (exito) {
                     JOptionPane.showMessageDialog(dialogo,
-                        "✅ Odontólogo actualizado exitosamente\n\n" +
+                        "Odontólogo actualizado exitosamente\n\n" +
                         "ID: " + id + "\n" +
                         "Nombre: " + nombre + "\n" +
                         "Teléfono: " + telefono + "\n" +
@@ -634,11 +624,10 @@ public class OdontologiaView extends JPanel {
                     
                     // Actualizar tabla y cerrar diálogo
                     cargarOdontologos();
-                    actualizarEstadoSistema("Odontólogo actualizado exitosamente", new Color(241, 196, 15));
                     dialogo.dispose();
                 } else {
                     JOptionPane.showMessageDialog(dialogo,
-                        "❌ Error: El número de colegiado " + numeroColegiado + " ya está en uso por otro odontólogo.\n" +
+                        "Error: El número de colegiado " + numeroColegiado + " ya está en uso por otro odontólogo.\n" +
                         "Por favor, verifique el número e intente nuevamente.",
                         "Error de Duplicación",
                         JOptionPane.ERROR_MESSAGE);
@@ -651,7 +640,7 @@ public class OdontologiaView extends JPanel {
             }
         });
         
-        JButton btnCancelar = new JButton("❌ Cancelar");
+        JButton btnCancelar = new JButton("Cancelar");
         btnCancelar.setFont(new Font("Segoe UI", Font.PLAIN, 15));
         btnCancelar.setBackground(new Color(149, 165, 166));
         btnCancelar.setForeground(Color.WHITE);
@@ -707,7 +696,6 @@ public class OdontologiaView extends JPanel {
                     JOptionPane.INFORMATION_MESSAGE);
                 
                 cargarOdontologos();
-                actualizarEstadoSistema("Odontólogo eliminado", new Color(231, 76, 60));
             } else {
                 JOptionPane.showMessageDialog(this,
                     "❌ No se pudo eliminar el odontólogo.\n\n" +
@@ -744,28 +732,4 @@ public class OdontologiaView extends JPanel {
         lblTotalOdontologos.setText("Total de odontólogos: " + odontologos.size());
     }
     
-    /**
-     * Actualiza el estado del sistema en la interfaz
-     */
-    private void actualizarEstadoSistema() {
-        actualizarEstadoSistema("● Sistema listo", new Color(46, 204, 113));
-    }
-    
-    /**
-     * Actualiza el estado del sistema con mensaje y color personalizados
-     */
-    private void actualizarEstadoSistema(String mensaje, Color color) {
-        lblEstadoSistema.setText("● " + mensaje);
-        lblEstadoSistema.setForeground(color);
-        
-        // Restaurar después de 3 segundos
-        if (!mensaje.equals("Sistema listo")) {
-            Timer timer = new Timer(3000, e -> {
-                lblEstadoSistema.setText("● Sistema listo");
-                lblEstadoSistema.setForeground(new Color(46, 204, 113));
-            });
-            timer.setRepeats(false);
-            timer.start();
-        }
-    }
 }

@@ -17,7 +17,7 @@ public class InicioView extends JFrame {
 
         // IMAGEN DE FONDO 
         ImageIcon icon = new ImageIcon(
-                "src/main/java/com/odontologia/Inicio.png"
+                "src/main/java/util/Inicio.png"
         );
 
         Image img = icon.getImage().getScaledInstance(900, 550, Image.SCALE_SMOOTH);
