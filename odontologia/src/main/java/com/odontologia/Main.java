@@ -1,23 +1,33 @@
 package com.odontologia;
 
-
-
+import javax.swing.SwingUtilities;
+import view.InicioView;
 import view.MenuPrincipalView;
-
 
 public class Main {
 
     public static void main(String[] args) {
 
-       
-        
- 
-                     
-          javax.swing.SwingUtilities.invokeLater(() -> {
-            new MenuPrincipalView();
+        SwingUtilities.invokeLater(() -> {
+
+            // Crear ventana inicio
+            InicioView inicio = new InicioView();
+            inicio.setVisible(true);
+
+            // Evento del botón iniciar
+            inicio.getBtnIniciar().addActionListener(e -> {
+
+                // Cerrar inicio
+                inicio.dispose();
+
+                // Abrir menú principal
+                MenuPrincipalView menu = new MenuPrincipalView();
+                menu.setVisible(true);
+            });
         });
-    
-        
+    }
+}
+
         /*
         MenuPrincipalView menu = new MenuPrincipalView();
         PacienteView paciente = new PacienteView();
@@ -38,17 +48,7 @@ public class Main {
                 case 0 -> System.exit(0);
                 default -> {}
             }
-        } while (true);
+        } while (true);}}
         */
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    }
-}
+
