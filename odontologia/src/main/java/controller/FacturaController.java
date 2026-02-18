@@ -16,12 +16,9 @@ public class FacturaController {
         this.view = view;
     }
     
-    /**
-     * ✅ CORREGIDO: Muestra una factura buscándola por el ID de la CITA
-     * @param idCita El ID de la cita (no el ID de la factura)
-     */
+
     public void mostrarFacturaPorIdCita(int idCita) {
-        // ✅ Usar el nuevo método getFacturaPorIdCita()
+        // Usar el nuevo método getFacturaPorIdCita()
         Factura factura = db.getFacturaPorIdCita(idCita);
         
         if (factura != null) {
@@ -52,9 +49,7 @@ public class FacturaController {
     }
 }
     
-    /**
-     * ✅ CORREGIDO: Carga los datos de una factura en la vista
-     */
+  
     private void cargarDatosEnVista(Factura factura) {
         try {
             // Verificar que todos los datos necesarios estén presentes
@@ -119,9 +114,6 @@ public class FacturaController {
         view.txtTotal.setText("$0.00");
     }
     
-    /**
-     * ✅ NUEVO: Actualiza el monto de una factura buscándola por ID de cita
-     */
     public boolean actualizarMontoPorIdCita(int idCita, double nuevoMonto) {
         Factura factura = db.getFacturaPorIdCita(idCita);
         

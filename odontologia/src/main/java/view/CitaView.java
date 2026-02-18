@@ -131,44 +131,30 @@ public class CitaView extends JPanel {
   private JPanel crearPanelBotones() {
     JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
     
-    btnCrear = new JButton("Crear Cita");
+    btnCrear = new JButton("➕ Crear Cita");
     btnCrear.addActionListener(e -> mostrarDialogoCrearCita());
     panel.add(btnCrear);
     
-    btnReprogramar = new JButton(" Reprogramar");
+    btnReprogramar = new JButton("📅 Reprogramar");
     btnReprogramar.addActionListener(e -> mostrarDialogoReprogramar());
     panel.add(btnReprogramar);
     
-    btnConfirmar = new JButton(" Confirmar");
+    btnConfirmar = new JButton("✓ Confirmar");
     btnConfirmar.addActionListener(e -> confirmarCita());
     panel.add(btnConfirmar);
     
-    btnCancelar = new JButton("Cancelar");
+    btnCancelar = new JButton("✗ Cancelar");
     btnCancelar.addActionListener(e -> cancelarCita());
     panel.add(btnCancelar);
     
      // ⭐ NUEVO BOTÓN - ELIMINAR
-    JButton btnEliminar = new JButton("️ Eliminar");
+    JButton btnEliminar = new JButton("🗑️ Eliminar");
     btnEliminar.setBackground(new Color(220, 53, 69)); // Rojo para acción destructiva
     btnEliminar.setForeground(Color.WHITE);
     btnEliminar.addActionListener(e -> eliminarCita());
     panel.add(btnEliminar);
-
-    btnRegistrarLlegada = new JButton("Registrar Llegada");
-    btnRegistrarLlegada.addActionListener(e -> mostrarDialogoRegistrarLlegada());
-    panel.add(btnRegistrarLlegada);
+   
     
-    btnEvaluarAsistencia = new JButton(" Evaluar Asistencia");
-    btnEvaluarAsistencia.addActionListener(e -> evaluarAsistencia());
-    panel.add(btnEvaluarAsistencia);
-    
-    // ⭐ NUEVO BOTÓN - ASIGNAR MONTO
-    btnAsignarMonto = new JButton("Asignar Monto");
-    btnAsignarMonto.setBackground(new Color(76, 175, 80)); // Verde
-    btnAsignarMonto.setForeground(Color.WHITE);
-    btnAsignarMonto.addActionListener(e -> mostrarDialogoAsignarMonto());
-    panel.add(btnAsignarMonto);
-
     return panel;
 }
 

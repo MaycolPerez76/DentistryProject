@@ -86,9 +86,6 @@ public class RecepcionController {
         return exito;
     }
     
-    /**
-     * ✅ OPTIMIZADO: Actualiza el monto de una factura existente
-     */
     public boolean actualizarMontoFactura(int idCita, double nuevoMonto) {
         // Usar el nuevo método de Database
         Factura factura = db.getFacturaPorIdCita(idCita);

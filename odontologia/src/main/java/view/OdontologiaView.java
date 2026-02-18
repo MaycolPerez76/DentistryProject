@@ -385,7 +385,7 @@ public class OdontologiaView extends JPanel {
             // Validar campos vacíos
             if (nombre.isEmpty() || telefonoStr.isEmpty() || numeroColegiadoStr.isEmpty()) {
                 JOptionPane.showMessageDialog(dialogo,
-                    "⚠️ Todos los campos son obligatorios",
+                    " Todos los campos son obligatorios",
                     "Error de Validación",
                     JOptionPane.ERROR_MESSAGE);
                 return;
@@ -407,7 +407,7 @@ public class OdontologiaView extends JPanel {
                 // Validar números positivos
                 if (telefono <= 0 || numeroColegiado <= 0) {
                     JOptionPane.showMessageDialog(dialogo,
-                        "⚠️ El teléfono y el número de colegiado deben ser números positivos",
+                        " El teléfono y el número de colegiado deben ser números positivos",
                         "Error de Validación",
                         JOptionPane.ERROR_MESSAGE);
                     return;
@@ -418,7 +418,7 @@ public class OdontologiaView extends JPanel {
                 
                 if (exito) {
                     JOptionPane.showMessageDialog(dialogo,
-                        "✅ Odontólogo registrado exitosamente\n\n" +
+                        "Odontólogo registrado exitosamente\n\n" +
                         "Nombre: " + nombre + "\n" +
                         "Teléfono: " + telefono + "\n" +
                         "Número de Colegiado: " + numeroColegiado,
@@ -438,7 +438,7 @@ public class OdontologiaView extends JPanel {
                 
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(dialogo,
-                    "⚠️ El teléfono y el número de colegiado deben ser números válidos",
+                    "El teléfono y el número de colegiado deben ser números válidos",
                     "Error de Formato",
                     JOptionPane.ERROR_MESSAGE);
             }
