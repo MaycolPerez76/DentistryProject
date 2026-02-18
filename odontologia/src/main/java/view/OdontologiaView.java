@@ -564,7 +564,7 @@ public class OdontologiaView extends JPanel {
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
         panelBotones.setBackground(Color.WHITE);
         
-        JButton btnActualizar = new JButton("✅ Actualizar");
+        JButton btnActualizar = new JButton("Actualizar");
         btnActualizar.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnActualizar.setBackground(new Color(241, 196, 15));
         btnActualizar.setForeground(Color.WHITE);
@@ -581,7 +581,7 @@ public class OdontologiaView extends JPanel {
             // Validar campos vacíos
             if (nombre.isEmpty() || telefonoStr.isEmpty() || numeroColegiadoStr.isEmpty()) {
                 JOptionPane.showMessageDialog(dialogo,
-                    "⚠️ Todos los campos son obligatorios",
+                    " Todos los campos son obligatorios",
                     "Error de Validación",
                     JOptionPane.ERROR_MESSAGE);
                 return;
@@ -590,7 +590,7 @@ public class OdontologiaView extends JPanel {
             // Validar que el nombre tenga al menos 3 caracteres
             if (nombre.length() < 3) {
                 JOptionPane.showMessageDialog(dialogo,
-                    "⚠️ El nombre debe tener al menos 3 caracteres",
+                    " El nombre debe tener al menos 3 caracteres",
                     "Error de Validación",
                     JOptionPane.ERROR_MESSAGE);
                 return;
@@ -603,7 +603,7 @@ public class OdontologiaView extends JPanel {
                 // Validar números positivos
                 if (telefono <= 0 || numeroColegiado <= 0) {
                     JOptionPane.showMessageDialog(dialogo,
-                        "⚠️ El teléfono y el número de colegiado deben ser números positivos",
+                        "️ El teléfono y el número de colegiado deben ser números positivos",
                         "Error de Validación",
                         JOptionPane.ERROR_MESSAGE);
                     return;
@@ -634,7 +634,7 @@ public class OdontologiaView extends JPanel {
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(dialogo,
-                    "⚠️ El teléfono y el número de colegiado deben ser números válidos",
+                    "️ El teléfono y el número de colegiado deben ser números válidos",
                     "Error de Formato",
                     JOptionPane.ERROR_MESSAGE);
             }
@@ -666,7 +666,7 @@ public class OdontologiaView extends JPanel {
         
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this,
-                "⚠️ Por favor, seleccione un odontólogo de la tabla para eliminar",
+                " Por favor, seleccione un odontólogo de la tabla para eliminar",
                 "Ningún Odontólogo Seleccionado",
                 JOptionPane.WARNING_MESSAGE);
             return;
@@ -679,7 +679,7 @@ public class OdontologiaView extends JPanel {
             "¿Está seguro que desea eliminar al odontólogo?\n\n" +
             "ID: " + id + "\n" +
             "Nombre: " + nombre + "\n\n" +
-            "⚠️ Esta acción no se puede deshacer.",
+            " Esta acción no se puede deshacer.",
             "Confirmar Eliminación",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.WARNING_MESSAGE);
@@ -689,7 +689,7 @@ public class OdontologiaView extends JPanel {
             
             if (exito) {
                 JOptionPane.showMessageDialog(this,
-                    "✅ Odontólogo eliminado exitosamente\n\n" +
+                    " Odontólogo eliminado exitosamente\n\n" +
                     "ID: " + id + "\n" +
                     "Nombre: " + nombre,
                     "Eliminación Exitosa",
@@ -698,7 +698,7 @@ public class OdontologiaView extends JPanel {
                 cargarOdontologos();
             } else {
                 JOptionPane.showMessageDialog(this,
-                    "❌ No se pudo eliminar el odontólogo.\n\n" +
+                    " No se pudo eliminar el odontólogo.\n\n" +
                     "Posibles causas:\n" +
                     "• El odontólogo tiene citas asignadas\n" +
                     "• El odontólogo no existe en el sistema",

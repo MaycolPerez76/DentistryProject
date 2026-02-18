@@ -523,7 +523,7 @@ public class PacienteView extends JPanel {
      */
     private void mostrarError(String titulo, String mensaje, JTextField campo) {
         JOptionPane.showMessageDialog(this,
-            "❌ " + mensaje,
+            "❌" + mensaje,
             "Error: " + titulo,
             JOptionPane.ERROR_MESSAGE);
         
@@ -686,7 +686,7 @@ public class PacienteView extends JPanel {
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
         panelBotones.setBackground(Color.WHITE);
         
-        JButton btnActualizar = new JButton("💾 Actualizar");
+        JButton btnActualizar = new JButton(" Actualizar");
         btnActualizar.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnActualizar.setBackground(new Color(241, 196, 15));
         btnActualizar.setForeground(Color.WHITE);
