@@ -1,0 +1,92 @@
+{
+  "1": {
+    "id": 1,
+    "monto": 150.0,
+    "cita": {
+      "id": 1,
+      "fecha": "2026-02-03",
+      "hora": "09:00",
+      "motivo": "Limpieza profunda",
+      "estado": "PENDIENTE",
+      "paciente": {
+        "numeroExpediente": "EXP-001",
+        "id": 101,
+        "nombre": "Juan Pérez",
+        "telefono": 77770001
+      },
+      "odontologo": {
+        "especialidad": "Cirugía Maxilofacial",
+        "numeroColegiado": 0,
+        "id": 1,
+        "nombre": "Dr. Gregory House",
+        "telefono": 88881111
+      }
+    },
+    "paciente": {
+      "numeroExpediente": "EXP-001",
+      "id": 101,
+      "nombre": "Juan Pérez",
+      "telefono": 77770001
+    }
+  },
+  "2": {
+    "id": 2,
+    "monto": 200.0,
+    "cita": {
+      "id": 2,
+      "fecha": "2026-02-03",
+      "hora": "10:00",
+      "motivo": "Dolor de muela",
+      "estado": "CONFIRMADA",
+      "paciente": {
+        "numeroExpediente": "EXP-002",
+        "id": 102,
+        "nombre": "María García",
+        "telefono": 77770002
+      },
+      "odontologo": {
+        "especialidad": "Cirugía Maxilofacial",
+        "numeroColegiado": 0,
+        "id": 1,
+        "nombre": "Dr. Gregory House",
+        "telefono": 88881111
+      }
+    },
+    "paciente": {
+      "numeroExpediente": "EXP-002",
+      "id": 102,
+      "nombre": "María García",
+      "telefono": 77770002
+    }
+  },
+  "3": {
+    "id": 3,
+    "monto": 300.0,
+    "cita": {
+      "id": 3,
+      "fecha": "2026-02-04",
+      "hora": "14:30",
+      "motivo": "Ajuste de Brackets",
+      "estado": "PENDIENTE",
+      "paciente": {
+        "numeroExpediente": "EXP-001",
+        "id": 101,
+        "nombre": "Juan Pérez",
+        "telefono": 77770001
+      },
+      "odontologo": {
+        "especialidad": "Ortodoncia",
+        "numeroColegiado": 0,
+        "id": 2,
+        "nombre": "Dra. Meredith Grey",
+        "telefono": 88882222
+      }
+    },
+    "paciente": {
+      "numeroExpediente": "EXP-001",
+      "id": 101,
+      "nombre": "Juan Pérez",
+      "telefono": 77770001
+    }
+  }
+}

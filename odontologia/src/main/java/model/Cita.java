@@ -147,19 +147,6 @@ public class Cita {
     public void registrarLlegada(LocalTime horaLlegada) {
         this.horaLlegadaPaciente = horaLlegada;
     }
-
-    /**
-     * Evalúa la asistencia del paciente basándose en si registró su llegada
-     * Si hay hora de llegada registrada -> ATENDIDA
-     * Si no hay hora de llegada -> AUSENTE
-     */
-    public void evaluarAsistencia() {
-        if (this.horaLlegadaPaciente != null) {
-            this.estado = EstadoCita.ATENDIDA;
-        } else {
-            this.estado = EstadoCita.AUSENTE;
-        }
-    }
     
     /**
      * Verifica si el paciente llegó tarde

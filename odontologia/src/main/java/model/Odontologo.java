@@ -33,11 +33,6 @@ public class Odontologo extends Persona {
         this.numeroColegiado = numeroColegiado;
     }
 
-    // Métodos del diagrama
-    public void enviarRecordatorio() {
-        System.out.println("Método enviarRecordatorio no implementado");
-    }
-
     @Override
     public String toString() {
         return "Odontologo{" +

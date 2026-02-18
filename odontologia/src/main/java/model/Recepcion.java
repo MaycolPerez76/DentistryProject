@@ -264,7 +264,6 @@ public class Recepcion {
                 .anyMatch(c -> c.getPaciente() != null 
                         && c.getPaciente().getId() == paciente.getId()
                         && c.getEstado() != EstadoCita.CANCELADA
-                        && c.getEstado() != EstadoCita.ATENDIDA
                         && !c.getFecha().isBefore(LocalDate.now()));
     }
     
@@ -276,12 +275,8 @@ public class Recepcion {
                 .filter(c -> c.getEstado() == EstadoCita.PENDIENTE).count();
         long confirmadas = db.getCitas().values().stream()
                 .filter(c -> c.getEstado() == EstadoCita.CONFIRMADA).count();
-        long atendidas = db.getCitas().values().stream()
-                .filter(c -> c.getEstado() == EstadoCita.ATENDIDA).count();
         long canceladas = db.getCitas().values().stream()
                 .filter(c -> c.getEstado() == EstadoCita.CANCELADA).count();
-        long ausentes = db.getCitas().values().stream()
-                .filter(c -> c.getEstado() == EstadoCita.AUSENTE).count();
         
         return String.format(
             "REPORTE DE CITAS:\n" +
@@ -291,7 +286,7 @@ public class Recepcion {
             "Canceladas: %d\n" +
             "Ausentes: %d\n" +
             "Total: %d",
-            pendientes, confirmadas, atendidas, canceladas, ausentes,
+            pendientes, confirmadas, canceladas,
             db.getCitas().size()
         );
     }

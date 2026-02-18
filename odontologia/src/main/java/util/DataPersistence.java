@@ -189,10 +189,10 @@ public class DataPersistence {
     private static <T> boolean guardarDatos(String archivo, T datos) {
         try (Writer writer = new FileWriter(archivo)) {
             gson.toJson(datos, writer);
-            System.out.println("✓ Datos guardados: " + archivo);
+            System.out.println("Datos guardados: " + archivo);
             return true;
         } catch (IOException e) {
-            System.err.println("✗ Error al guardar " + archivo + ": " + e.getMessage());
+            System.err.println("Error al guardar " + archivo + ": " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -205,16 +205,16 @@ public class DataPersistence {
         File file = new File(archivo);
         
         if (!file.exists()) {
-            System.out.println("⚠ Archivo no encontrado: " + archivo + " (se creará al guardar)");
+            System.out.println("Archivo no encontrado: " + archivo + " (se creará al guardar)");
             return null;
         }
         
         try (Reader reader = new FileReader(archivo)) {
             T datos = gson.fromJson(reader, type);
-            System.out.println("✓ Datos cargados: " + archivo);
+            System.out.println("Datos cargados: " + archivo);
             return datos;
         } catch (IOException e) {
-            System.err.println("✗ Error al cargar " + archivo + ": " + e.getMessage());
+            System.err.println("Error al cargar " + archivo + ": " + e.getMessage());
             e.printStackTrace();
             return null;
         }

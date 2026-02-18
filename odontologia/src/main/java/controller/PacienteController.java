@@ -27,11 +27,13 @@ public class PacienteController {
      */
     public boolean agregarPaciente(String nombre, int telefono, String numeroExpediente) {
         // Validar que no exista un paciente con el mismo número de expediente
-        boolean expedienteExiste = db.getPacientes().values().stream()
+        //Busca a los pacientes desde un map (getPacientes) y rescata solo su numero de expediente
+        boolean expedienteExiste = db.getPacientes().values().stream()  
+                
                 .anyMatch(p -> p.getNumeroExpediente().equalsIgnoreCase(numeroExpediente));
         
         if (expedienteExiste) {
-            System.err.println("✗ Ya existe un paciente con el expediente: " + numeroExpediente);
+            System.err.println("Ya existe un paciente con el expediente: " + numeroExpediente);
             return false;
         }
         
@@ -48,7 +50,7 @@ public class PacienteController {
         // Guardar automáticamente
         db.guardarDatos();
         
-        System.out.println("✅ Paciente agregado: " + nombre + " (ID: " + nuevoPaciente.getId() + ")");
+        System.out.println("Paciente agregado: " + nombre + " (ID: " + nuevoPaciente.getId() + ")");
         return true;
     }
     
@@ -94,17 +96,18 @@ public class PacienteController {
         Paciente paciente = db.getPacientes().get(id);
         
         if (paciente == null) {
-            System.err.println("✗ Paciente no encontrado: ID " + id);
+            System.err.println("Paciente no encontrado: ID " + id);
             return false;
         }
         
         // Verificar que el nuevo expediente no esté en uso por otro paciente
+        //Busca a los pacientes desde un map (getPacientes) y rescata solo su numero de expediente
         boolean expedienteEnUso = db.getPacientes().values().stream()
                 .anyMatch(p -> p.getId() != id && 
                           p.getNumeroExpediente().equalsIgnoreCase(numeroExpediente));
         
         if (expedienteEnUso) {
-            System.err.println("✗ El expediente " + numeroExpediente + " ya está en uso");
+            System.err.println("El expediente " + numeroExpediente + " ya está en uso");
             return false;
         }
         
@@ -116,7 +119,7 @@ public class PacienteController {
         // Guardar automáticamente
         db.guardarDatos();
         
-        System.out.println("✅ Paciente actualizado: " + nombre);
+        System.out.println("Paciente actualizado: " + nombre);
         return true;
     }
     
@@ -126,19 +129,21 @@ public class PacienteController {
      * @return true si se eliminó exitosamente
      */
     public boolean eliminarPaciente(int id) {
+        //Obtiene su id para validar que exista en un condicional
         Paciente paciente = db.getPacientes().get(id);
         
         if (paciente == null) {
-            System.err.println("✗ Paciente no encontrado: ID " + id);
+            System.err.println("Paciente no encontrado: ID " + id);
             return false;
         }
         
         // Verificar si tiene citas programadas
+        //Obtiene las citas desde un map (getCitas) y extrae los datos para procesarlos
         boolean tieneCitas = db.getCitas().values().stream()
                 .anyMatch(c -> c.getPaciente() != null && c.getPaciente().getId() == id);
         
         if (tieneCitas) {
-            System.err.println("✗ No se puede eliminar. El paciente tiene citas registradas");
+            System.err.println("No se puede eliminar. El paciente tiene citas registradas");
             return false;
         }
         
@@ -148,7 +153,7 @@ public class PacienteController {
         // Guardar automáticamente
         db.guardarDatos();
         
-        System.out.println("✅ Paciente eliminado: " + paciente.getNombre());
+        System.out.println("Paciente eliminado: " + paciente.getNombre());
         return true;
     }
     
@@ -166,6 +171,7 @@ public class PacienteController {
      * @return Lista de pacientes que coinciden
      */
     public List<Paciente> buscarPacientesPorNombre(String nombreBusqueda) {
+        //Busca a los pacientes y luego filtra junto con el nombreBusqueda 
         return db.getPacientes().values().stream()
                 .filter(p -> p.getNombre().toLowerCase()
                         .contains(nombreBusqueda.toLowerCase()))

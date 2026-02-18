@@ -91,7 +91,7 @@ public class OdontologiaController {
         
         // Validar que el número de colegiado no esté duplicado
         if (existeNumeroColegiado(numeroColegiado, -1)) {
-            System.err.println("❌ Error: El número de colegiado " + numeroColegiado + " ya está registrado");
+            System.err.println("Error: El número de colegiado " + numeroColegiado + " ya está registrado");
             return false;
         }
         
@@ -114,7 +114,7 @@ public class OdontologiaController {
         // Persistir en JSON automáticamente
         db.guardarDatos();
         
-        System.out.println("✅ Odontólogo registrado exitosamente:");
+        System.out.println("Odontólogo registrado exitosamente:");
         System.out.println("   - ID: " + nuevoId);
         System.out.println("   - Nombre: " + nombre);
         System.out.println("   - Especialidad: " + especialidad);
@@ -144,13 +144,13 @@ public class OdontologiaController {
         // Verificar que el odontólogo existe
         Odontologo odontologo = db.getOdontologos().get(id);
         if (odontologo == null) {
-            System.err.println("❌ Error: No existe odontólogo con ID " + id);
+            System.err.println("Error: No existe odontólogo con ID " + id);
             return false;
         }
         
         // Validar que el número de colegiado no esté duplicado (excepto si es el mismo)
         if (existeNumeroColegiado(numeroColegiado, id)) {
-            System.err.println("❌ Error: El número de colegiado " + numeroColegiado + " ya está en uso");
+            System.err.println("Error: El número de colegiado " + numeroColegiado + " ya está en uso");
             return false;
         }
         
@@ -163,7 +163,7 @@ public class OdontologiaController {
         // Persistir cambios en JSON
         db.guardarDatos();
         
-        System.out.println("✅ Odontólogo actualizado exitosamente:");
+        System.out.println("Odontólogo actualizado exitosamente:");
         System.out.println("   - ID: " + id);
         System.out.println("   - Nombre: " + nombre);
         System.out.println("   - Especialidad: " + especialidad);
@@ -188,7 +188,7 @@ public class OdontologiaController {
             // Obtener el odontólogo actual para mantener su especialidad
             Odontologo odontologoActual = db.getOdontologos().get(id);
             if (odontologoActual == null) {
-                System.err.println("❌ Error: No existe odontólogo con ID " + id);
+                System.err.println("Error: No existe odontólogo con ID " + id);
                 return false;
             }
             
@@ -198,7 +198,7 @@ public class OdontologiaController {
             return actualizarOdontologo(id, nombre, telefono, especialidadActual, numeroColegiado);
             
         } catch (NumberFormatException e) {
-            System.err.println("❌ Error: El número de colegiado debe ser un número válido");
+            System.err.println("Error: El número de colegiado debe ser un número válido");
             return false;
         }
     }
@@ -217,7 +217,7 @@ public class OdontologiaController {
         // Verificar que el odontólogo existe
         Odontologo odontologo = db.getOdontologos().get(id);
         if (odontologo == null) {
-            System.err.println("❌ Error: No existe odontólogo con ID " + id);
+            System.err.println("Error: No existe odontólogo con ID " + id);
             return false;
         }
         
@@ -226,7 +226,7 @@ public class OdontologiaController {
                 .anyMatch(cita -> cita.getOdontologo().getId() == id);
         
         if (tieneCitas) {
-            System.err.println("❌ Error: No se puede eliminar el odontólogo porque tiene citas asignadas");
+            System.err.println("Error: No se puede eliminar el odontólogo porque tiene citas asignadas");
             return false;
         }
         
@@ -238,7 +238,7 @@ public class OdontologiaController {
             // Eliminar horarios asociados
             db.getHorarios().entrySet()
                     .removeIf(entry -> entry.getValue().getOdontologo().getId() == id);
-            System.out.println("⚠️  Horarios del odontólogo eliminados");
+            System.out.println("Horarios del odontólogo eliminados");
         }
         
         // Eliminar odontólogo
@@ -247,7 +247,7 @@ public class OdontologiaController {
         // Persistir cambios en JSON
         db.guardarDatos();
         
-        System.out.println("✅ Odontólogo eliminado exitosamente (ID: " + id + ")");
+        System.out.println("Odontólogo eliminado exitosamente (ID: " + id + ")");
         
         return true;
     }
@@ -362,6 +362,6 @@ public class OdontologiaController {
      */
     public void recargarDatos() {
         db.recargarDesdeArchivos();
-        System.out.println("📂 Datos de odontólogos recargados desde archivos");
+        System.out.println("Datos de odontólogos recargados desde archivos");
     }
 }

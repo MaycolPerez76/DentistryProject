@@ -81,7 +81,7 @@ public class OdontologiaView extends JPanel {
         panelTitulo.setBackground(new Color(41, 128, 185));
         panelTitulo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
-        JLabel lblTitulo = new JLabel("GESTIÓN DE ODONTÓLOGOS");
+        JLabel lblTitulo = new JLabel("GESTION DE ODONTOLOGOS");
         lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 28));
         lblTitulo.setForeground(Color.WHITE);
         panelTitulo.add(lblTitulo, BorderLayout.WEST);
@@ -97,7 +97,7 @@ public class OdontologiaView extends JPanel {
         ));
         
         // BOTÓN PRINCIPAL: AGREGAR NUEVO ODONTÓLOGO
-        btnAgregarNuevoOdontologo = new JButton("➕ AGREGAR ODONTÓLOGO");
+        btnAgregarNuevoOdontologo = new JButton(" AGREGAR ODONTÓLOGO");
         btnAgregarNuevoOdontologo.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btnAgregarNuevoOdontologo.setBackground(new Color(46, 204, 113));
         btnAgregarNuevoOdontologo.setForeground(Color.WHITE);

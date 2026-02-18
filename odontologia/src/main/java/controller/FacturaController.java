@@ -6,7 +6,7 @@ import view.FacturaView;
 
 /**
  * Controlador de Factura
- * ✅ CORREGIDO: Ahora busca facturas por ID de CITA correctamente
+ * Busca facturas por ID de CITA
  */
 public class FacturaController {
     private Database db = Database.getInstance();
@@ -26,10 +26,10 @@ public class FacturaController {
         
         if (factura != null) {
             cargarDatosEnVista(factura);
-            System.out.println("✅ Factura encontrada para cita #" + idCita + " -> Factura #" + factura.getId());
+            System.out.println("Factura encontrada para cita " + idCita + " -> Factura #" + factura.getId());
         } else {
             limpiarVista();
-            System.err.println("❌ No se encontró factura para la cita #" + idCita);
+            System.err.println("No se encontró factura para la cita " + idCita);
             JOptionPane.showMessageDialog(view, 
                 "No se encontró factura para la cita #" + idCita,
                 "Factura no encontrada", 
@@ -97,7 +97,7 @@ public class FacturaController {
             
         } catch (Exception e) {
             limpiarVista();
-            System.err.println("❌ Error al cargar factura: " + e.getMessage());
+            System.err.println("Error al cargar factura: " + e.getMessage());
             e.printStackTrace();
             JOptionPane.showMessageDialog(view,
                 "Error al cargar la factura: " + e.getMessage(),
@@ -128,7 +128,7 @@ public class FacturaController {
         if (factura != null) {
             factura.setMonto(nuevoMonto);
             db.guardarDatos();
-            System.out.println("✅ Monto de factura actualizado: $" + nuevoMonto);
+            System.out.println("Monto de factura actualizado: $" + nuevoMonto);
             
             // Recargar la vista si está mostrando esta factura
             if (view.txtTitular.getText() != null && !view.txtTitular.getText().isEmpty()) {
@@ -138,7 +138,7 @@ public class FacturaController {
             return true;
         }
         
-        System.err.println("❌ No se encontró factura para actualizar monto");
+        System.err.println("No se encontró factura para actualizar monto");
         return false;
     }
 }

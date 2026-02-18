@@ -63,7 +63,7 @@ public class CitaView extends JPanel {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         
         // Título
-        JLabel lblTitulo = new JLabel("GESTIÓN DE CITAS", SwingConstants.CENTER);
+        JLabel lblTitulo = new JLabel("GESTION DE CITAS", SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
         panel.add(lblTitulo, BorderLayout.NORTH);
         
@@ -72,7 +72,7 @@ public class CitaView extends JPanel {
         
         panelFiltros.add(new JLabel("Filtrar por estado:"));
         cmbFiltroEstado = new JComboBox<>(new String[]{
-            "Todos", "PENDIENTE", "CONFIRMADA", "ATENDIDA", "CANCELADA", "AUSENTE"
+            "Todos", "PENDIENTE", "CONFIRMADA", "CANCELADA",
         });
         cmbFiltroEstado.addActionListener(e -> aplicarFiltros());
         panelFiltros.add(cmbFiltroEstado);
@@ -101,7 +101,7 @@ public class CitaView extends JPanel {
         JPanel panel = new JPanel(new BorderLayout());
         
         // Modelo de tabla
-        String[] columnas = {"ID", "Paciente", "Odontólogo", "Fecha", "Hora", "Motivo", "Estado", "Llegada"};
+        String[] columnas = {"ID", "Paciente", "Odontólogo", "Fecha", "Hora", "Motivo", "Estado"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -121,7 +121,6 @@ public class CitaView extends JPanel {
         tablaCitas.getColumnModel().getColumn(4).setPreferredWidth(80);  // Hora
         tablaCitas.getColumnModel().getColumn(5).setPreferredWidth(200); // Motivo
         tablaCitas.getColumnModel().getColumn(6).setPreferredWidth(100); // Estado
-        tablaCitas.getColumnModel().getColumn(7).setPreferredWidth(80);  // Llegada
         
         JScrollPane scrollPane = new JScrollPane(tablaCitas);
         panel.add(scrollPane, BorderLayout.CENTER);
@@ -154,21 +153,7 @@ public class CitaView extends JPanel {
     btnEliminar.setForeground(Color.WHITE);
     btnEliminar.addActionListener(e -> eliminarCita());
     panel.add(btnEliminar);
-    
-    btnRegistrarLlegada = new JButton("⏰ Registrar Llegada");
-    btnRegistrarLlegada.addActionListener(e -> mostrarDialogoRegistrarLlegada());
-    panel.add(btnRegistrarLlegada);
-    
-    btnEvaluarAsistencia = new JButton("📋 Evaluar Asistencia");
-    btnEvaluarAsistencia.addActionListener(e -> evaluarAsistencia());
-    panel.add(btnEvaluarAsistencia);
-    
-    // ⭐ NUEVO BOTÓN - ASIGNAR MONTO
-    btnAsignarMonto = new JButton("💰 Asignar Monto");
-    btnAsignarMonto.setBackground(new Color(76, 175, 80)); // Verde
-    btnAsignarMonto.setForeground(Color.WHITE);
-    btnAsignarMonto.addActionListener(e -> mostrarDialogoAsignarMonto());
-    panel.add(btnAsignarMonto);
+   
     
     return panel;
 }
@@ -405,13 +390,6 @@ btnGuardar.addActionListener(e -> {
             return;
         }
         
-        if (cita.getEstado() == EstadoCita.ATENDIDA) {
-            JOptionPane.showMessageDialog(this, 
-                "No se puede reprogramar una cita ATENDIDA.\n" +
-                "La cita ya fue completada.", 
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         
         JDialog dialogo = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Reprogramar Cita", true);
         dialogo.setLayout(new GridBagLayout());
@@ -504,21 +482,6 @@ btnGuardar.addActionListener(e -> {
             return;
         }
         
-        if (cita.getEstado() == EstadoCita.ATENDIDA) {
-            JOptionPane.showMessageDialog(this, 
-                "La cita ya fue ATENDIDA.\n" +
-                "No es necesario confirmarla.", 
-                "Información", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        
-        if (cita.getEstado() == EstadoCita.AUSENTE) {
-            JOptionPane.showMessageDialog(this, 
-                "La cita fue marcada como AUSENTE.\n" +
-                "No se puede confirmar.", 
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         
         // Intentar confirmar
         if (controller.confirmarCita(idCita)) {
@@ -558,19 +521,6 @@ btnGuardar.addActionListener(e -> {
             return;
         }
         
-        if (cita.getEstado() == EstadoCita.ATENDIDA) {
-            int confirmacion = JOptionPane.showConfirmDialog(this,
-                "La cita ya fue ATENDIDA.\n" +
-                "¿Está seguro que desea cancelarla de todas formas?\n" +
-                "Esto puede afectar los registros.", 
-                "Advertencia", 
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE);
-            
-            if (confirmacion != JOptionPane.YES_OPTION) {
-                return;
-            }
-        }
         
         
         // Confirmar cancelación
@@ -753,16 +703,7 @@ btnGuardar.addActionListener(e -> {
             return;
         }
         
-        if (cita.getEstado() == EstadoCita.ATENDIDA) {
-            JOptionPane.showMessageDialog(this, 
-                "La cita ya fue ATENDIDA.\n" +
-                "Hora de llegada registrada: " + 
-                (cita.getHoraLlegadaPaciente() != null ? 
-                    cita.getHoraLlegadaPaciente().format(DateTimeFormatter.ofPattern("HH:mm")) : "N/A"), 
-                "Información", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        
+  
         if (!cita.getFecha().equals(LocalDate.now())) {
             JOptionPane.showMessageDialog(this, 
                 "Solo se puede registrar llegada de citas del día actual.\n" +
@@ -852,13 +793,6 @@ btnGuardar.addActionListener(e -> {
         return;
     }
     
-    if (cita.getEstado() == EstadoCita.AUSENTE) {
-        JOptionPane.showMessageDialog(this,
-            "No se puede asignar monto a una cita donde el paciente estuvo AUSENTE",
-            "Error",
-            JOptionPane.ERROR_MESSAGE);
-        return;
-    }
     
     // Obtener factura actual
     model.Factura facturaActual = controller.obtenerFacturaPorCita(idCita);
@@ -926,76 +860,6 @@ btnGuardar.addActionListener(e -> {
                 JOptionPane.ERROR_MESSAGE);
         }
     }
-}
-
+}          
     
-    private void evaluarAsistencia() {
-        int filaSeleccionada = tablaCitas.getSelectedRow();
-        if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, "Seleccione una cita", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        
-        int idCita = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-        Cita cita = controller.obtenerCitaPorId(idCita);
-        
-        // VALIDACIONES MEJORADAS
-        if (cita == null) {
-            JOptionPane.showMessageDialog(this, "La cita seleccionada no existe", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        if (cita.getEstado() == EstadoCita.CANCELADA) {
-            JOptionPane.showMessageDialog(this, 
-                "No se puede evaluar asistencia de una cita CANCELADA", 
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        if (cita.getEstado() == EstadoCita.ATENDIDA) {
-            JOptionPane.showMessageDialog(this, 
-                "La cita ya fue marcada como ATENDIDA", 
-                "Información", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        
-        if (cita.getEstado() == EstadoCita.AUSENTE) {
-            JOptionPane.showMessageDialog(this, 
-                "La cita ya fue marcada como AUSENTE", 
-                "Información", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        
-        // Confirmar evaluación
-        String mensaje;
-        if (cita.getHoraLlegadaPaciente() != null) {
-            mensaje = String.format(
-                "El paciente registró llegada a las %s\n" +
-                "¿Marcar esta cita como ATENDIDA?",
-                cita.getHoraLlegadaPaciente().format(DateTimeFormatter.ofPattern("HH:mm"))
-            );
-        } else {
-            mensaje = "No hay registro de llegada del paciente.\n" +
-                      "¿Marcar esta cita como AUSENTE?";
-        }
-        
-        int confirmacion = JOptionPane.showConfirmDialog(this, 
-            mensaje, 
-            "Evaluar Asistencia", 
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE);
-        
-        if (confirmacion == JOptionPane.YES_OPTION) {
-            if (controller.evaluarAsistencia(idCita)) {
-                String nuevoEstado = cita.getHoraLlegadaPaciente() != null ? "ATENDIDA" : "AUSENTE";
-                JOptionPane.showMessageDialog(this, 
-                    "Asistencia evaluada exitosamente.\n" +
-                    "Estado cambiado a: " + nuevoEstado, 
-                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                cargarDatos();
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo evaluar la asistencia", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
 }

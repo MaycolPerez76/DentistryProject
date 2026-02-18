@@ -1,0 +1,20 @@
+{
+  "101": {
+    "numeroExpediente": "EXP-001",
+    "id": 101,
+    "nombre": "Juan Pérez",
+    "telefono": 77770001
+  },
+  "102": {
+    "numeroExpediente": "EXP-002",
+    "id": 102,
+    "nombre": "María García",
+    "telefono": 77770002
+  },
+  "103": {
+    "numeroExpediente": "006",
+    "id": 103,
+    "nombre": "fefse",
+    "telefono": 3464534
+  }
+}

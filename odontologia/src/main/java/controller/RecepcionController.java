@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Controlador de Recepción
  * Actúa como intermediario entre la vista y el modelo Recepcion
- * ✅ OPTIMIZADO: Con auto-guardado y generación automática de facturas
+ * OPTIMIZADO: Con auto-guardado y generación automática de facturas
  */
 public class RecepcionController {
     
@@ -27,26 +27,26 @@ public class RecepcionController {
         Odontologo odontologo = db.getOdontologos().get(idOdontologo);
         
         if (paciente == null || odontologo == null) {
-            System.err.println("❌ Paciente u Odontólogo no encontrado");
+            System.err.println("Paciente u Odontólogo no encontrado");
             return false;
         }
         
         boolean exito = recepcion.crearCita(paciente, odontologo, fecha, hora, motivo);
         
         if (exito) {
-            // Obtener la cita recién creada (la última en el Map)
+            // Obtener la cita recién creada (En el Map)
             Cita citaCreada = db.getCitas().values().stream()
                 .reduce((primera, segunda) -> segunda) // Obtener la última
                 .orElse(null);
             
             if (citaCreada != null) {
-                // Crear factura automáticamente con monto inicial de 0.00
+                // Crear factura con monto inicial de 0.0
                 crearFacturaParaCita(citaCreada, paciente, 0.0);
-                System.out.println("✅ Cita #" + citaCreada.getId() + " creada con factura asociada");
+                System.out.println("Cita " + citaCreada.getId() + " creada con factura asociada");
             }
             
-            db.guardarDatos(); // ⭐ GUARDAR AUTOMÁTICAMENTE
-            System.out.println("💾 Datos guardados correctamente");
+            db.guardarDatos(); // GUARDAR AUTOMÁTICAMENTE
+            System.out.println("Datos guardados correctamente");
         }
         
         return exito;
@@ -61,7 +61,7 @@ public class RecepcionController {
         Odontologo odontologo = db.getOdontologos().get(idOdontologo);
         
         if (paciente == null || odontologo == null) {
-            System.err.println("❌ Paciente u Odontólogo no encontrado");
+            System.err.println("Paciente u Odontólogo no encontrado");
             return false;
         }
         
@@ -76,11 +76,11 @@ public class RecepcionController {
             if (citaCreada != null) {
                 // Crear factura con el monto especificado
                 crearFacturaParaCita(citaCreada, paciente, monto);
-                System.out.println("✅ Cita #" + citaCreada.getId() + " creada con monto $" + monto);
+                System.out.println("Cita " + citaCreada.getId() + " creada con monto $" + monto);
             }
             
             db.guardarDatos();
-            System.out.println("💾 Datos guardados correctamente");
+            System.out.println("Datos guardados correctamente");
         }
         
         return exito;
@@ -94,18 +94,18 @@ public class RecepcionController {
         Factura factura = db.getFacturaPorIdCita(idCita);
         
         if (factura == null) {
-            System.err.println("❌ No se encontró factura para la cita #" + idCita);
+            System.err.println("No se encontró factura para la cita " + idCita);
             return false;
         }
         
         factura.setMonto(nuevoMonto);
         db.guardarDatos();
-        System.out.println("✅ Monto de factura actualizado a $" + nuevoMonto);
+        System.out.println("Monto de factura actualizado a $" + nuevoMonto);
         return true;
     }
     
     /**
-     * ✅ OPTIMIZADO: Obtiene la factura asociada a una cita
+     * OPTIMIZADO: Obtiene la factura asociada a una cita
      */
     public Factura obtenerFacturaPorCita(int idCita) {
         return db.getFacturaPorIdCita(idCita);
@@ -123,7 +123,7 @@ public class RecepcionController {
         factura.setMonto(monto);
         
         db.getFacturas().put(factura.getId(), factura);
-        System.out.println("📄 Factura #" + factura.getId() + " creada para cita #" + cita.getId());
+        System.out.println("Factura " + factura.getId() + " creada para cita #" + cita.getId());
     }
     
     
@@ -136,7 +136,7 @@ public class RecepcionController {
         Horario horario = db.getHorarios().get(idHorario);
         
         if (paciente == null || odontologo == null || horario == null) {
-            System.err.println("❌ Datos incompletos para crear cita con horario");
+            System.err.println("Datos incompletos para crear cita con horario");
             return false;
         }
         
@@ -149,11 +149,11 @@ public class RecepcionController {
             
             if (citaCreada != null) {
                 crearFacturaParaCita(citaCreada, paciente, 0.0);
-                System.out.println("✅ Cita #" + citaCreada.getId() + " creada con horario #" + idHorario);
+                System.out.println("Cita " + citaCreada.getId() + " creada con horario " + idHorario);
             }
             
             db.guardarDatos();
-            System.out.println("💾 Datos guardados correctamente");
+            System.out.println("Datos guardados correctamente");
         }
         
         return exito;
@@ -167,7 +167,7 @@ public class RecepcionController {
         
         if (exito) {
             db.guardarDatos();
-            System.out.println("✅ Cita #" + idCita + " cancelada y guardada");
+            System.out.println("Cita " + idCita + " cancelada y guardada");
         }
         
         return exito;
@@ -186,28 +186,28 @@ public class RecepcionController {
                 .findFirst()
                 .ifPresent(horario -> {
                     horario.marcarDisponible();
-                    System.out.println("🕒 Horario liberado: " + cita.getFecha() + " " + cita.getHora());
+                    System.out.println("Horario liberado: " + cita.getFecha() + " " + cita.getHora());
                 });
     }
     
     /**
-     * ✅ OPTIMIZADO: Elimina una cita completamente del sistema
+     * OPTIMIZADO: Elimina una cita completamente del sistema
      */
     public boolean eliminarCitaCompletamente(int idCita) {
         Cita cita = db.getCitas().get(idCita);
         
         if (cita == null) {
-            System.err.println("❌ Cita #" + idCita + " no encontrada");
+            System.err.println("Cita " + idCita + " no encontrada");
             return false;
         }
         
-        System.out.println("🗑️ Eliminando cita #" + idCita);
+        System.out.println("Eliminando cita " + idCita);
         
         // 1. Eliminar factura asociada si existe
         Factura factura = obtenerFacturaPorCita(idCita);
         if (factura != null) {
             db.getFacturas().remove(factura.getId());
-            System.out.println("📄 Factura #" + factura.getId() + " eliminada");
+            System.out.println("Factura " + factura.getId() + " eliminada");
         }
         
         // 2. Liberar horario si existe
@@ -222,8 +222,8 @@ public class RecepcionController {
             
             // 5. Guardar los cambios
             db.guardarDatos();
-            System.out.println("✅ Cita #" + idCita + " eliminada completamente");
-            System.out.println("📊 NextCitaId ahora es: " + db.getNextCitaId());
+            System.out.println("Cita " + idCita + " eliminada completamente");
+            System.out.println("NextCitaId ahora es: " + db.getNextCitaId());
         }
         
         return eliminada;
@@ -236,12 +236,12 @@ public class RecepcionController {
         Cita cita = db.getCitas().get(idCita);
         
         if (cita == null || cita.getEstado() == EstadoCita.CANCELADA) {
-            System.err.println("❌ No se puede reprogramar la cita #" + idCita);
+            System.err.println("No se puede reprogramar la cita #" + idCita);
             return false;
         }
         
         if (nuevaFecha.isBefore(LocalDate.now())) {
-            System.err.println("❌ No se puede programar en una fecha pasada");
+            System.err.println("No se puede programar en una fecha pasada");
             return false;
         }
         
@@ -253,13 +253,13 @@ public class RecepcionController {
                         && c.getOdontologo().getId() == cita.getOdontologo().getId());
         
         if (ocupado) {
-            System.err.println("❌ Horario ya ocupado");
+            System.err.println("Horario ya ocupado");
             return false;
         }
         
         cita.reprogramar(nuevaFecha, nuevaHora);
         db.guardarDatos();
-        System.out.println("✅ Cita #" + idCita + " reprogramada y guardada");
+        System.out.println("Cita " + idCita + " reprogramada y guardada");
         return true;
     }
     
@@ -270,7 +270,7 @@ public class RecepcionController {
         Cita cita = db.getCitas().get(idCita);
         
         if (cita == null) {
-            System.err.println("❌ Cita #" + idCita + " no encontrada");
+            System.err.println("Cita " + idCita + " no encontrada");
             return false;
         }
         
@@ -278,7 +278,7 @@ public class RecepcionController {
         
         if (exito) {
             db.guardarDatos();
-            System.out.println("✅ Cita #" + idCita + " confirmada y guardada");
+            System.out.println("Cita " + idCita + " confirmada y guardada");
         }
         
         return exito;
@@ -291,7 +291,7 @@ public class RecepcionController {
         
         if (exito) {
             db.guardarDatos();
-            System.out.println("✅ Llegada registrada para cita #" + idCita);
+            System.out.println("Llegada registrada para cita " + idCita);
         }
         
         return exito;
@@ -302,25 +302,12 @@ public class RecepcionController {
         
         if (exito) {
             db.guardarDatos();
-            System.out.println("✅ Llegada registrada para cita #" + idCita);
+            System.out.println("Llegada registrada para cita " + idCita);
         }
         
         return exito;
     }
     
-    public boolean evaluarAsistencia(int idCita) {
-        Cita cita = db.getCitas().get(idCita);
-        
-        if (cita == null) {
-            System.err.println("❌ Cita #" + idCita + " no encontrada");
-            return false;
-        }
-        
-        cita.evaluarAsistencia();
-        db.guardarDatos();
-        System.out.println("✅ Asistencia evaluada para cita #" + idCita);
-        return true;
-    }
     
     // ========== BÚSQUEDA Y CONSULTAS ==========
     
@@ -328,7 +315,7 @@ public class RecepcionController {
         Odontologo odontologo = db.getOdontologos().get(idOdontologo);
         
         if (odontologo == null) {
-            System.err.println("❌ Odontólogo #" + idOdontologo + " no encontrado");
+            System.err.println("Odontólogo " + idOdontologo + " no encontrado");
             return List.of();
         }
         
@@ -340,7 +327,7 @@ public class RecepcionController {
     }
     
     /**
-     * ✅ OPTIMIZADO: Obtiene todas las citas (sin recarga innecesaria)
+     * OPTIMIZADO: Obtiene todas las citas (sin recarga innecesaria)
      */
     public List<Cita> obtenerTodasLasCitas() {
         return List.copyOf(db.getCitas().values());
@@ -355,7 +342,7 @@ public class RecepcionController {
     }
     
     /**
-     * ✅ NUEVO: Obtiene una cita específica por su ID
+     * NUEVO: Obtiene una cita específica por su ID
      */
     public Cita obtenerCitaPorId(int idCita) {
         return db.getCitas().get(idCita);
@@ -389,14 +376,10 @@ public class RecepcionController {
                 .filter(c -> c.getEstado() == EstadoCita.PENDIENTE).count();
         long confirmadas = db.getCitas().values().stream()
                 .filter(c -> c.getEstado() == EstadoCita.CONFIRMADA).count();
-        long atendidas = db.getCitas().values().stream()
-                .filter(c -> c.getEstado() == EstadoCita.ATENDIDA).count();
         long canceladas = db.getCitas().values().stream()
                 .filter(c -> c.getEstado() == EstadoCita.CANCELADA).count();
-        long ausentes = db.getCitas().values().stream()
-                .filter(c -> c.getEstado() == EstadoCita.AUSENTE).count();
         
-        return new CitaEstadisticas(pendientes, confirmadas, atendidas, canceladas, ausentes);
+        return new CitaEstadisticas(pendientes, confirmadas, canceladas);
     }
     
     // ========== CLASE INTERNA PARA ESTADÍSTICAS ==========
@@ -404,25 +387,21 @@ public class RecepcionController {
     public static class CitaEstadisticas {
         public final long pendientes;
         public final long confirmadas;
-        public final long atendidas;
         public final long canceladas;
-        public final long ausentes;
         public final long total;
         
-        public CitaEstadisticas(long pendientes, long confirmadas, long atendidas, long canceladas, long ausentes) {
+        public CitaEstadisticas(long pendientes, long confirmadas, long canceladas) {
             this.pendientes = pendientes;
             this.confirmadas = confirmadas;
-            this.atendidas = atendidas;
             this.canceladas = canceladas;
-            this.ausentes = ausentes;
-            this.total = pendientes + confirmadas + atendidas + canceladas + ausentes;
+            this.total = pendientes + confirmadas + canceladas;
         }
         
         @Override
         public String toString() {
             return String.format(
                 "Pendientes: %d | Confirmadas: %d | Atendidas: %d | Canceladas: %d | Ausentes: %d | Total: %d",
-                pendientes, confirmadas, atendidas, canceladas, ausentes, total
+                pendientes, confirmadas, canceladas, total
             );
         }
     }

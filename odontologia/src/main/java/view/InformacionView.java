@@ -40,7 +40,7 @@ nuestro docente encargado en la revision y evaluacion del programa.
 
 Con el fin de la creacion de un sistema funcional y adaptable, tanto para
 el cliente como para el desarrollador. Para mas consultas o problemas puede
-comunicarse al correo "sistemaRedOdontologia2026.gmial.com"                 
+comunicarse al correo "sistemaRedOdontologia2026.gmail.com"                 
 
 Módulos disponibles:
 • Pacientes
@@ -48,7 +48,7 @@ Módulos disponibles:
 • Citas
 • Facturación
                             
- FuncionalidadesQu
+ Funcionalidades:
  • Creacion y muestra del paciente
  • Creacion y muestra del odontologo
  • Creacion y muestra de la cita odontologica
