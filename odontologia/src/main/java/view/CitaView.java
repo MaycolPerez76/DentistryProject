@@ -153,10 +153,7 @@ public class CitaView extends JPanel {
     btnEliminar.setForeground(Color.WHITE);
     btnEliminar.addActionListener(e -> eliminarCita());
     panel.add(btnEliminar);
-<<<<<<< HEAD
-   
-=======
-    
+
     btnRegistrarLlegada = new JButton("Registrar Llegada");
     btnRegistrarLlegada.addActionListener(e -> mostrarDialogoRegistrarLlegada());
     panel.add(btnRegistrarLlegada);
@@ -171,8 +168,7 @@ public class CitaView extends JPanel {
     btnAsignarMonto.setForeground(Color.WHITE);
     btnAsignarMonto.addActionListener(e -> mostrarDialogoAsignarMonto());
     panel.add(btnAsignarMonto);
->>>>>>> d5d4e72 (Mis cambios antes de actualizar)
-    
+
     return panel;
 }
 
