@@ -671,7 +671,7 @@ public class OdontologiaView extends JPanel {
                 JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+        //Obtiene los valores a traves de las columnas
         int id = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
         String nombre = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
         

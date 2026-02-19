@@ -368,38 +368,4 @@ public class RecepcionController {
         return recepcion.generarReporteCitas();
     }
     
-    public CitaEstadisticas obtenerEstadisticas() {
-        long pendientes = db.getCitas().values().stream()
-                .filter(c -> c.getEstado() == EstadoCita.PENDIENTE).count();
-        long confirmadas = db.getCitas().values().stream()
-                .filter(c -> c.getEstado() == EstadoCita.CONFIRMADA).count();
-        long canceladas = db.getCitas().values().stream()
-                .filter(c -> c.getEstado() == EstadoCita.CANCELADA).count();
-        
-        return new CitaEstadisticas(pendientes, confirmadas, canceladas);
     }
-    
-    // ========== CLASE INTERNA PARA ESTADÍSTICAS ==========
-    
-    public static class CitaEstadisticas {
-        public final long pendientes;
-        public final long confirmadas;
-        public final long canceladas;
-        public final long total;
-        
-        public CitaEstadisticas(long pendientes, long confirmadas, long canceladas) {
-            this.pendientes = pendientes;
-            this.confirmadas = confirmadas;
-            this.canceladas = canceladas;
-            this.total = pendientes + confirmadas + canceladas;
-        }
-        
-        @Override
-        public String toString() {
-            return String.format(
-                "Pendientes: %d | Confirmadas: %d | Atendidas: %d | Canceladas: %d | Ausentes: %d | Total: %d",
-                pendientes, confirmadas, canceladas, total
-            );
-        }
-    }
-}

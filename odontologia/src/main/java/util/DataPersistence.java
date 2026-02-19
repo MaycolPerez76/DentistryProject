@@ -228,22 +228,4 @@ public class DataPersistence {
                new File(PACIENTES_FILE).exists() ||
                new File(ODONTOLOGOS_FILE).exists();
     }
-    
-    /**
-     * Elimina todos los archivos de datos (útil para reset completo)
-     */
-    public static void eliminarTodosLosDatos() {
-        File directory = new File(DATA_DIRECTORY);
-        if (directory.exists()) {
-            File[] files = directory.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    if (file.delete()) {
-                        System.out.println("✓ Eliminado: " + file.getName());
-                    }
-                }
-            }
-            System.out.println("✓ Todos los datos eliminados");
-        }
-    }
 }

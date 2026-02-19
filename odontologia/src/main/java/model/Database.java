@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class Database {
+    //Reiteracion de si misma para usarse como atributo del cual a traves de este pasaran los datos del constructor privado al metodo getInstance() 
     private static Database instance;
     private Map<Integer, Paciente> pacientes = new HashMap<>();
     private Map<Integer, Odontologo> odontologos = new HashMap<>();
@@ -17,22 +18,23 @@ public class Database {
     private int nextFacturaId = 1;
     private int nextHorarioId = 1;
 
+    //Constructor privado donde almacenara los todo los datos
     private Database() {
         cargarDatos();
     }
-
+    //Metodo para crear un Database unico y del cual no se puedan crear otros 
     public static synchronized Database getInstance() {
         if (instance == null) instance = new Database();
         return instance;
     }
     
     /**
-     * Carga los datos desde archivos JSON o genera datos de prueba si no existen
+     * Carga los datos desde archivos JSON y los pasa al constructor
      */
     private void cargarDatos() {
     if (DataPersistence.existenDatosGuardados()) {
         // Cargar desde archivos
-        System.out.println("📂 Cargando datos guardados...");
+        System.out.println("Cargando datos guardados...");
         pacientes = DataPersistence.cargarPacientes();
         odontologos = DataPersistence.cargarOdontologos();
         citas = DataPersistence.cargarCitas();
@@ -46,17 +48,17 @@ public class Database {
         nextHorarioId = counters.getOrDefault("nextHorarioId", 1);
         nextPacienteId = counters.getOrDefault("nextPacienteId", 103); // AGREGAR ESTA LÍNEA
         
-        System.out.println("✅ Datos cargados exitosamente");
+        System.out.println("Datos cargados exitosamente");
         System.out.println("   - Pacientes: " + pacientes.size());
         System.out.println("   - Odontólogos: " + odontologos.size());
         System.out.println("   - Citas: " + citas.size());
         System.out.println("   - Horarios: " + horarios.size());
     } else {
         // Primera ejecución - generar datos de prueba
-        System.out.println("🆕 Primera ejecución - generando datos de prueba...");
+        System.out.println("Primera ejecución - generando datos de prueba...");
         poblarDatosFalsos();
         guardarDatos(); // Guardar los datos iniciales
-        System.out.println("✅ Datos de prueba generados y guardados");
+        System.out.println("Datos de prueba generados y guardados");
     }
 }
 
@@ -221,14 +223,14 @@ public class Database {
 public void recalcularNextCitaId() {
     if (citas.isEmpty()) {
         nextCitaId = 1;
-        System.out.println("🔄 NextCitaId establecido a 1 (no hay citas)");
+        System.out.println("NextCitaId establecido a 1 (no hay citas)");
     } else {
         int maxId = citas.keySet().stream()
                 .mapToInt(Integer::intValue)
                 .max()
                 .orElse(0);
         nextCitaId = maxId + 1;
-        System.out.println("🔄 NextCitaId recalculado: " + nextCitaId);
+        System.out.println("NextCitaId recalculado: " + nextCitaId);
     }
 }
 

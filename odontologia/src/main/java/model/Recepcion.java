@@ -80,7 +80,7 @@ public class Recepcion {
             return false;
         }
         
-        // Validar solapamiento
+        // Validar que ya este ocupada la cita
         boolean ocupado = db.getCitas().values().stream()
             .filter(c -> c.getEstado() != EstadoCita.CANCELADA)
             .anyMatch(c -> c.getFecha().equals(fecha) 
