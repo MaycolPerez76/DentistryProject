@@ -140,67 +140,6 @@ public class Cita {
         this.horaLlegadaPaciente = null; // Resetear la hora de llegada
     }
 
-    /**
-     * Registra la hora de llegada del paciente
-     * @param horaLlegada Hora en que llegó el paciente
-     */
-    public void registrarLlegada(LocalTime horaLlegada) {
-        this.horaLlegadaPaciente = horaLlegada;
-    }
-    
-    /**
-     * Verifica si el paciente llegó tarde
-     * @return true si llegó después de la hora de la cita, false en caso contrario
-     */
-    public boolean llegoTarde() {
-        if (this.horaLlegadaPaciente == null) {
-            return false;
-        }
-        return this.horaLlegadaPaciente.isAfter(this.hora);
-    }
-    
-    /**
-     * Calcula los minutos de retraso (o adelanto si es negativo)
-     * @return minutos de diferencia entre hora de llegada y hora de cita
-     */
-    public int calcularMinutosRetraso() {
-        if (this.horaLlegadaPaciente == null) {
-            return 0;
-        }
-        return (int) java.time.Duration.between(this.hora, this.horaLlegadaPaciente).toMinutes();
-    }
-    
-    /**
-     * Verifica si la cita es para el día de hoy
-     * @return true si la fecha de la cita es hoy
-     */
-    public boolean esHoy() {
-        return this.fecha != null && this.fecha.equals(LocalDate.now());
-    }
-    
-    /**
-     * Verifica si la cita ya pasó
-     * @return true si la fecha/hora ya pasaron
-     */
-    public boolean yaPaso() {
-        if (this.fecha == null || this.hora == null) {
-            return false;
-        }
-        
-        LocalDate hoy = LocalDate.now();
-        LocalTime ahora = LocalTime.now();
-        
-        if (this.fecha.isBefore(hoy)) {
-            return true;
-        }
-        
-        if (this.fecha.equals(hoy) && this.hora.isBefore(ahora)) {
-            return true;
-        }
-        
-        return false;
-    }
-
     @Override
     public String toString() {
         return String.format("Cita #%d [Paciente: %s, Odontólogo: %s, Fecha: %s, Hora: %s, Estado: %s, Motivo: %s]",
@@ -211,18 +150,5 @@ public class Cita {
                 hora,
                 estado,
                 motivo);
-    }
-    
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Cita cita = (Cita) obj;
-        return id == cita.id;
-    }
-    
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(id);
     }
 }

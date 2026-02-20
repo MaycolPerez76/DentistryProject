@@ -394,7 +394,7 @@ public class OdontologiaView extends JPanel {
             // Validar que el nombre tenga al menos 3 caracteres
             if (nombre.length() < 3) {
                 JOptionPane.showMessageDialog(dialogo,
-                    "⚠️ El nombre debe tener al menos 3 caracteres",
+                    "El nombre debe tener al menos 3 caracteres",
                     "Error de Validación",
                     JOptionPane.ERROR_MESSAGE);
                 return;

@@ -280,31 +280,22 @@ public class RecepcionController {
         
         return exito;
     }
-    
-    // ========== GESTIÓN DE LLEGADAS ==========
-    
-    public boolean registrarLlegada(int idCita) {
-        boolean exito = recepcion.registrarLlegadaPaciente(idCita, LocalTime.now());
+
+    /**
+     * Finaliza una cita, cambiando su estado a FINALIZADO
+     */
+    public boolean finalizarCita(int idCita) {
+        boolean exito = recepcion.finalizarCita(idCita);
         
         if (exito) {
             db.guardarDatos();
-            System.out.println("Llegada registrada para cita " + idCita);
+            System.out.println("Cita " + idCita + " finalizada y guardada");
         }
         
         return exito;
     }
-    
-    public boolean registrarLlegada(int idCita, LocalTime horaLlegada) {
-        boolean exito = recepcion.registrarLlegadaPaciente(idCita, horaLlegada);
+   
         
-        if (exito) {
-            db.guardarDatos();
-            System.out.println("Llegada registrada para cita " + idCita);
-        }
-        
-        return exito;
-    }
-    
     
     // ========== BÚSQUEDA Y CONSULTAS ==========
     
@@ -330,9 +321,6 @@ public class RecepcionController {
         return List.copyOf(db.getCitas().values());
     }
     
-    public List<Cita> obtenerCitasDelDia() {
-        return recepcion.obtenerCitasDelDia();
-    }
     
     public List<Cita> obtenerCitasPendientes() {
         return recepcion.obtenerCitasPendientesConfirmacion();
@@ -357,10 +345,7 @@ public class RecepcionController {
                 .toList();
     }
     
-    public boolean tieneCitasProgramadas(int idPaciente) {
-        Paciente paciente = db.getPacientes().get(idPaciente);
-        return recepcion.tieneCitasProgramadas(paciente);
-    }
+
     
     // ========== REPORTES ==========
     

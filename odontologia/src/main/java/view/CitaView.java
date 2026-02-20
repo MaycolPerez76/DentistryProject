@@ -28,7 +28,7 @@ public class CitaView extends JPanel {
     // Componentes principales
     private JTable tablaCitas;
     private DefaultTableModel modeloTabla;
-    private JButton btnCrear, btnReprogramar, btnCancelar, btnConfirmar;
+    private JButton btnCrear, btnReprogramar, btnCancelar, btnConfirmar, btnFinalizar;
     private JButton btnRegistrarLlegada, btnEvaluarAsistencia, btnActualizar;
     private JComboBox<String> cmbFiltroEstado;
     private JTextField txtBuscarPaciente;
@@ -72,7 +72,7 @@ public class CitaView extends JPanel {
 
         panelFiltros.add(new JLabel("Filtrar por estado:"));
         cmbFiltroEstado = new JComboBox<>(new String[]{
-            "Todos", "PENDIENTE", "CONFIRMADA", "CANCELADA",});
+            "Todos", "PENDIENTE", "CONFIRMADA", "CANCELADA", "FINALIZADO"});
         cmbFiltroEstado.addActionListener(e -> aplicarFiltros());
         panelFiltros.add(cmbFiltroEstado);
 
@@ -141,6 +141,12 @@ public class CitaView extends JPanel {
         btnConfirmar = new JButton("Confirmar");
         btnConfirmar.addActionListener(e -> confirmarCita());
         panel.add(btnConfirmar);
+
+        btnFinalizar = new JButton("Finalizar");
+        btnFinalizar.setBackground(new Color(40, 167, 69));
+        btnFinalizar.setForeground(Color.WHITE);
+        btnFinalizar.addActionListener(e -> finalizarCita());
+        panel.add(btnFinalizar);
 
         btnCancelar = new JButton("Cancelar");
         btnCancelar.addActionListener(e -> cancelarCita());
@@ -396,6 +402,14 @@ public class CitaView extends JPanel {
                     "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+               if (cita.getEstado() == EstadoCita.FINALIZADO) {
+            JOptionPane.showMessageDialog(this,
+                    "No se puede reprogramar una cita FINALIZADA.\n"
+                    + "Debe crear una nueva cita para este paciente.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
 
         JDialog dialogo = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Reprogramar Cita", true);
         dialogo.setLayout(new GridBagLayout());
@@ -491,6 +505,13 @@ public class CitaView extends JPanel {
                     "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+               if (cita.getEstado() == EstadoCita.FINALIZADO) {
+          JOptionPane.showMessageDialog(this,
+                    "Cita Finalizada.\n"
+                    + "Una cita finalizada no puede cambiar de estado.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         // Intentar confirmar
         if (controller.confirmarCita(idCita)) {
@@ -504,6 +525,76 @@ public class CitaView extends JPanel {
                     "No se pudo confirmar la cita.\n"
                     + "Estado actual: " + cita.getEstado(),
                     "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void finalizarCita() {
+        int filaSeleccionada = tablaCitas.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione una cita para finalizar", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int idCita = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+        Cita cita = controller.obtenerCitaPorId(idCita);
+
+        if (cita == null) {
+            JOptionPane.showMessageDialog(this, "La cita seleccionada no existe", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+                       if (cita.getEstado() == EstadoCita.PENDIENTE) {
+            JOptionPane.showMessageDialog(this,
+                    "No se puede finalizar una cita PENDIENTE.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (cita.getEstado() == EstadoCita.FINALIZADO) {
+            JOptionPane.showMessageDialog(this,
+                    "La cita ya está FINALIZADA.",
+                    "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        if (cita.getEstado() == EstadoCita.CANCELADA) {
+            JOptionPane.showMessageDialog(this,
+                    "No se puede finalizar una cita CANCELADA.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+ 
+
+        String mensaje = String.format(
+                "¿Está seguro que desea finalizar esta cita?\n\n"
+                + "Paciente: %s\n"
+                + "Odontólogo: %s\n"
+                + "Fecha: %s %s\n"
+                + "Estado actual: %s",
+                cita.getPaciente().getNombre(),
+                cita.getOdontologo().getNombre(),
+                cita.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                cita.getHora().format(DateTimeFormatter.ofPattern("HH:mm")),
+                cita.getEstado()
+        );
+
+        int confirmacion = JOptionPane.showConfirmDialog(this,
+                mensaje,
+                "Confirmar Finalización",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            if (controller.finalizarCita(idCita)) {
+                JOptionPane.showMessageDialog(this,
+                        "Cita finalizada exitosamente.",
+                        "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                cargarDatos();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "No se pudo finalizar la cita.\n"
+                        + "Solo pueden finalizarse citas en estado PENDIENTE o CONFIRMADA.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -527,6 +618,13 @@ public class CitaView extends JPanel {
             JOptionPane.showMessageDialog(this,
                     "La cita ya está CANCELADA",
                     "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+                if (cita.getEstado() == EstadoCita.FINALIZADO) {
+            JOptionPane.showMessageDialog(this,
+                    "No se puede cancelar una cita FINALIZADA.\n"
+                    + "Debe crear una nueva cita para este paciente.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 

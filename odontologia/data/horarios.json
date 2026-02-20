@@ -3,7 +3,7 @@
     "id": 1,
     "fecha": "2026-02-03",
     "hora": "09:00",
-    "disponible": false,
+    "disponible": true,
     "odontologo": {
       "especialidad": "Cirugía Maxilofacial",
       "numeroColegiado": 0,
@@ -367,7 +367,7 @@
     "id": 29,
     "fecha": "2026-02-04",
     "hora": "14:30",
-    "disponible": false,
+    "disponible": true,
     "odontologo": {
       "especialidad": "Ortodoncia",
       "numeroColegiado": 0,

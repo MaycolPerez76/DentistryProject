@@ -133,41 +133,30 @@ public class Recepcion {
         }
         return false;
     }
-    
+
     /**
-     * Registra la llegada de un paciente a su cita
-     * @param cita Cita del paciente
-     * @param horaLlegada Hora en que llegó
-     * @return true si se registró exitosamente
+     * Finaliza una cita confirmada, marcándola como FINALIZADO
+     * @param idCita ID de la cita a finalizar
+     * @return true si se finalizó exitosamente
      */
-    public boolean registrarLlegadaPaciente(Cita cita, LocalTime horaLlegada) {
-        if (cita == null || horaLlegada == null) {
+    public boolean finalizarCita(int idCita) {
+        Cita cita = db.getCitas().get(idCita);
+        if (cita == null) {
             return false;
         }
         
-        // Verificar que la cita sea de hoy
-        if (!cita.getFecha().equals(LocalDate.now())) {
+                if (cita.getEstado() == EstadoCita.PENDIENTE) {
             return false;
         }
-        
-        cita.registrarLlegada(horaLlegada);
-        
-        // Si llegó más de 15 minutos tarde, cancelar automáticamente
-        if (cita.calcularMinutosRetraso() > 15) {
-            cita.setEstado(EstadoCita.CANCELADA);
+                
+        if (cita.getEstado() != EstadoCita.CONFIRMADA) {
             return false;
         }
-        
+        cita.setEstado(EstadoCita.FINALIZADO);
         return true;
     }
     
-    /**
-     * Sobrecarga: Registra llegada por ID de cita
-     */
-    public boolean registrarLlegadaPaciente(int idCita, LocalTime horaLlegada) {
-        Cita cita = db.getCitas().get(idCita);
-        return registrarLlegadaPaciente(cita, horaLlegada);
-    }
+    
     
     /**
      * Busca horarios disponibles para un odontólogo en una fecha
@@ -227,17 +216,6 @@ public class Recepcion {
                 .orElse(null);
     }
     
-    /**
-     * Obtiene todas las citas del día actual
-     */
-    public List<Cita> obtenerCitasDelDia() {
-        LocalDate hoy = LocalDate.now();
-        return db.getCitas().values().stream()
-                .filter(c -> c.getFecha().equals(hoy))
-                .filter(c -> c.getEstado() != EstadoCita.CANCELADA)
-                .sorted((c1, c2) -> c1.getHora().compareTo(c2.getHora()))
-                .collect(Collectors.toList());
-    }
     
     /**
      * Obtiene citas pendientes que requieren confirmación
@@ -252,19 +230,6 @@ public class Recepcion {
                     return c1.getHora().compareTo(c2.getHora());
                 })
                 .collect(Collectors.toList());
-    }
-    
-    /**
-     * Verifica si un paciente tiene citas programadas
-     */
-    public boolean tieneCitasProgramadas(Paciente paciente) {
-        if (paciente == null) return false;
-        
-        return db.getCitas().values().stream()
-                .anyMatch(c -> c.getPaciente() != null 
-                        && c.getPaciente().getId() == paciente.getId()
-                        && c.getEstado() != EstadoCita.CANCELADA
-                        && !c.getFecha().isBefore(LocalDate.now()));
     }
     
     /**

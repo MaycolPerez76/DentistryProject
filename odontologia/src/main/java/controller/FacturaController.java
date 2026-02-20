@@ -76,9 +76,9 @@ public class FacturaController {
             view.txtEstado.setText(cita.getEstado() != null ? cita.getEstado().toString() : "N/A");
             
             // Cargar total - IMPLEMENTACIÓN DEL CONDICIONAL
-            if (cita.getEstado() == EstadoCita.CONFIRMADA) {
+            if (cita.getEstado() == EstadoCita.CONFIRMADA || cita.getEstado() == EstadoCita.FINALIZADO) {
                 // Si la cita está CONFIRMADA, mostrar el monto total
-                view.txtTotal.setText(String.format("$%.2f", factura.getMonto()));
+                view.txtTotal.setText(String.format("$%.2f", factura.getMonto()));            
             } else {
                 // Si la cita NO está confirmada (PENDIENTE, CANCELADA, etc.), mostrar $0.00
                 view.txtTotal.setText("$0.00");

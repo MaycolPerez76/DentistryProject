@@ -1,34 +1,4 @@
 {
-  "1": {
-    "id": 1,
-    "monto": 150.0,
-    "cita": {
-      "id": 1,
-      "fecha": "2026-02-03",
-      "hora": "09:00",
-      "motivo": "Limpieza profunda",
-      "estado": "PENDIENTE",
-      "paciente": {
-        "numeroExpediente": "EXP-001",
-        "id": 101,
-        "nombre": "Juan Pérez",
-        "telefono": 77770001
-      },
-      "odontologo": {
-        "especialidad": "Cirugía Maxilofacial",
-        "numeroColegiado": 0,
-        "id": 1,
-        "nombre": "Dr. Gregory House",
-        "telefono": 88881111
-      }
-    },
-    "paciente": {
-      "numeroExpediente": "EXP-001",
-      "id": 101,
-      "nombre": "Juan Pérez",
-      "telefono": 77770001
-    }
-  },
   "2": {
     "id": 2,
     "monto": 200.0,
@@ -59,20 +29,20 @@
       "telefono": 77770002
     }
   },
-  "3": {
-    "id": 3,
-    "monto": 300.0,
+  "17": {
+    "id": 17,
+    "monto": 220.0,
     "cita": {
       "id": 3,
-      "fecha": "2026-02-04",
-      "hora": "14:30",
-      "motivo": "Ajuste de Brackets",
+      "fecha": "2026-02-21",
+      "hora": "09:00",
+      "motivo": "hthdr",
       "estado": "PENDIENTE",
       "paciente": {
-        "numeroExpediente": "EXP-001",
-        "id": 101,
-        "nombre": "Juan Pérez",
-        "telefono": 77770001
+        "numeroExpediente": "006",
+        "id": 103,
+        "nombre": "fefse",
+        "telefono": 3464534
       },
       "odontologo": {
         "especialidad": "Ortodoncia",
@@ -80,6 +50,36 @@
         "id": 2,
         "nombre": "Dra. Meredith Grey",
         "telefono": 88882222
+      }
+    },
+    "paciente": {
+      "numeroExpediente": "006",
+      "id": 103,
+      "nombre": "fefse",
+      "telefono": 3464534
+    }
+  },
+  "19": {
+    "id": 19,
+    "monto": 11.0,
+    "cita": {
+      "id": 4,
+      "fecha": "2026-02-21",
+      "hora": "09:20",
+      "motivo": "WFEAA",
+      "estado": "FINALIZADO",
+      "paciente": {
+        "numeroExpediente": "EXP-001",
+        "id": 101,
+        "nombre": "Juan Pérez",
+        "telefono": 77770001
+      },
+      "odontologo": {
+        "especialidad": "Cirugía Maxilofacial",
+        "numeroColegiado": 0,
+        "id": 1,
+        "nombre": "Dr. Gregory House",
+        "telefono": 88881111
       }
     },
     "paciente": {

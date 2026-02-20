@@ -86,32 +86,6 @@ public class Horario {
         this.disponible = true;
     }
     
-    // ========== MÉTODOS AUXILIARES ==========
-    
-    /**
-     * Verifica si el horario ya pasó
-     */
-    public boolean yaPaso() {
-        LocalDate hoy = LocalDate.now();
-        LocalTime ahora = LocalTime.now();
-        
-        if (this.fecha.isBefore(hoy)) {
-            return true;
-        }
-        
-        if (this.fecha.equals(hoy) && this.hora.isBefore(ahora)) {
-            return true;
-        }
-        
-        return false;
-    }
-    
-    /**
-     * Verifica si el horario es de hoy
-     */
-    public boolean esHoy() {
-        return this.fecha != null && this.fecha.equals(LocalDate.now());
-    }
     
     @Override
     public String toString() {
@@ -123,16 +97,4 @@ public class Horario {
                 odontologo != null ? odontologo.getNombre() : "N/A");
     }
     
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Horario horario = (Horario) obj;
-        return id == horario.id;
-    }
-    
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(id);
-    }
 }
