@@ -179,7 +179,6 @@ public class CitaView extends JPanel {
                 cita.getHora() != null ? cita.getHora().format(formatoHora) : "",
                 cita.getMotivo(),
                 cita.getEstado(),
-                cita.getHoraLlegadaPaciente() != null ? cita.getHoraLlegadaPaciente().format(formatoHora) : "-"
             };
             modeloTabla.addRow(fila);
         }
@@ -220,7 +219,6 @@ public class CitaView extends JPanel {
                 cita.getHora() != null ? cita.getHora().format(formatoHora) : "",
                 cita.getMotivo(),
                 cita.getEstado(),
-                cita.getHoraLlegadaPaciente() != null ? cita.getHoraLlegadaPaciente().format(formatoHora) : "-"
             };
             modeloTabla.addRow(fila);
         }
@@ -592,7 +590,7 @@ public class CitaView extends JPanel {
             } else {
                 JOptionPane.showMessageDialog(this,
                         "No se pudo finalizar la cita.\n"
-                        + "Solo pueden finalizarse citas en estado PENDIENTE o CONFIRMADA.",
+                        + "Solo pueden finalizarse citas en estado CONFIRMADA.",
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         }

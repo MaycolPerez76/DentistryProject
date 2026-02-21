@@ -120,6 +120,9 @@ public class Recepcion {
                 horario.marcarDisponible();
             }
         }
+              else if (cita.getEstado() == EstadoCita.FINALIZADO) {
+               System.out.println("No se puede eliminar una cita finalizada");
+            }
     }
     
     /**
@@ -131,7 +134,19 @@ public class Recepcion {
             cancelarCita(cita);
             return true;
         }
+        else if (cita.getEstado() == EstadoCita.PENDIENTE) {
+            cancelarCita(cita);
+            return true;    
+        }
         return false;
+    }
+    
+    
+    //Se finaliza desde el metodo de la clase Cita donde se almacenaran las citas
+    public void finalizarCita(Cita cita) {
+       if (cita != null) {
+           cita.finalizar();
+       }
     }
 
     /**
@@ -139,22 +154,20 @@ public class Recepcion {
      * @param idCita ID de la cita a finalizar
      * @return true si se finalizó exitosamente
      */
-    public boolean finalizarCita(int idCita) {
-        Cita cita = db.getCitas().get(idCita);
-        if (cita == null) {
-            return false;
-        }
-        
-                if (cita.getEstado() == EstadoCita.PENDIENTE) {
-            return false;
-        }
-                
-        if (cita.getEstado() != EstadoCita.CONFIRMADA) {
-            return false;
-        }
-        cita.setEstado(EstadoCita.FINALIZADO);
-        return true;
+   public boolean finalizarCita(int idCita) {
+    Cita cita = db.getCitas().get(idCita);
+
+    if (cita == null) {
+        return false;
     }
+
+    if (cita.getEstado() != EstadoCita.CONFIRMADA) {
+        return false;
+    }
+
+    cita.finalizar();
+    return true;
+}
     
     
     
@@ -232,29 +245,6 @@ public class Recepcion {
                 .collect(Collectors.toList());
     }
     
-    /**
-     * Genera un reporte de citas por estado
-     */
-    public String generarReporteCitas() {
-        long pendientes = db.getCitas().values().stream()
-                .filter(c -> c.getEstado() == EstadoCita.PENDIENTE).count();
-        long confirmadas = db.getCitas().values().stream()
-                .filter(c -> c.getEstado() == EstadoCita.CONFIRMADA).count();
-        long canceladas = db.getCitas().values().stream()
-                .filter(c -> c.getEstado() == EstadoCita.CANCELADA).count();
-        
-        return String.format(
-            "REPORTE DE CITAS:\n" +
-            "Pendientes: %d\n" +
-            "Confirmadas: %d\n" +
-            "Atendidas: %d\n" +
-            "Canceladas: %d\n" +
-            "Ausentes: %d\n" +
-            "Total: %d",
-            pendientes, confirmadas, canceladas,
-            db.getCitas().size()
-        );
-    }
     
     @Override
     public String toString() {

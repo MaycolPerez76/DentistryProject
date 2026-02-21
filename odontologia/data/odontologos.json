@@ -12,5 +12,12 @@
     "id": 2,
     "nombre": "Dra. Meredith Grey",
     "telefono": 88882222
+  },
+  "3": {
+    "especialidad": "General",
+    "numeroColegiado": 3,
+    "id": 3,
+    "nombre": "Dylan Rivera",
+    "telefono": 6677443
   }
 }

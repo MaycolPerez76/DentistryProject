@@ -13,7 +13,6 @@ public class Cita {
     private LocalTime hora;
     private String motivo;
     private EstadoCita estado;
-    private LocalTime horaLlegadaPaciente;
     private Paciente paciente;
     private Odontologo odontologo;
 
@@ -22,12 +21,11 @@ public class Cita {
     }
 
     // Constructor con parámetros principales
-    public Cita(LocalDate fecha, LocalTime hora, String motivo, EstadoCita estado, LocalTime horaLlegadaPaciente) {
+    public Cita(LocalDate fecha, LocalTime hora, String motivo, EstadoCita estado) {
         this.fecha = fecha;
         this.hora = hora;
         this.motivo = motivo;
         this.estado = estado;
-        this.horaLlegadaPaciente = horaLlegadaPaciente;
     }
     
     // Constructor completo
@@ -99,13 +97,6 @@ public class Cita {
         this.estado = estado;
     }
 
-    public LocalTime getHoraLlegadaPaciente() {
-        return horaLlegadaPaciente;
-    }
-
-    public void setHoraLlegadaPaciente(LocalTime horaLlegadaPaciente) {
-        this.horaLlegadaPaciente = horaLlegadaPaciente;
-    }
 
     // Métodos de negocio
     
@@ -125,7 +116,11 @@ public class Cita {
      * Cancela la cita
      */
     public void cancelar() {
-        this.estado = EstadoCita.CANCELADA;
+       this.estado = EstadoCita.CANCELADA;
+    }
+    
+    public void finalizar() {
+        this.estado = EstadoCita.FINALIZADO;
     }
 
     /**
@@ -134,10 +129,14 @@ public class Cita {
      * @param nuevaHora Nueva hora de la cita
      */
     public void reprogramar(LocalDate nuevaFecha, LocalTime nuevaHora) {
+        if (this.estado == EstadoCita.CANCELADA ||this.estado == EstadoCita.FINALIZADO) {
+            System.out.println("No se puede reprogramar la cita, revise que no este cancelada o finalizada la cita");
+} else {
         this.fecha = nuevaFecha;
         this.hora = nuevaHora;
         this.estado = EstadoCita.PENDIENTE;
-        this.horaLlegadaPaciente = null; // Resetear la hora de llegada
+        }
+        
     }
 
     @Override

@@ -233,8 +233,11 @@ public class RecepcionController {
         Cita cita = db.getCitas().get(idCita);
         
         if (cita == null || cita.getEstado() == EstadoCita.CANCELADA) {
-            System.err.println("No se puede reprogramar la cita #" + idCita);
+            System.err.println("No se puede reprogramar la cita " + idCita);
             return false;
+        } else if (cita.getEstado() == EstadoCita.FINALIZADO) {
+             System.err.println("No se puede reprogramar la cita " + idCita);
+            return false;           
         }
         
         if (nuevaFecha.isBefore(LocalDate.now())) {
@@ -344,13 +347,5 @@ public class RecepcionController {
                 .filter(c -> c.getOdontologo() != null && c.getOdontologo().getId() == idOdontologo)
                 .toList();
     }
-    
-
-    
-    // ========== REPORTES ==========
-    
-    public String generarReporteCitas() {
-        return recepcion.generarReporteCitas();
-    }
-    
+   
     }
