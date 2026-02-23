@@ -16,5 +16,11 @@
     "id": 103,
     "nombre": "fefse",
     "telefono": 3464534
+  },
+  "108": {
+    "numeroExpediente": "EXP 233",
+    "id": 108,
+    "nombre": "Maycol Espinoza",
+    "telefono": 88775566
   }
 }

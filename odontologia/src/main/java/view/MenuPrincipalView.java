@@ -6,6 +6,17 @@ import java.awt.*;
 
 public class MenuPrincipalView extends JFrame {
 
+    /*
+   Crea botones como:
+   Pacientes
+   Citas
+   Factura
+   Información
+  Los organiza en un VBox o BorderPane
+  Define el menú lateral o central
+      
+    */
+    
     private JPanel contentPanel;
 
     public MenuPrincipalView() {

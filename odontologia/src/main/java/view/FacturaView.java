@@ -2,7 +2,11 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-
+/*
+  Crea tabla de tratamientos
+  Calcula totales
+  Muestra monto final
+*/
 public class FacturaView extends JPanel {
 
     // Campos visuales (luego el controlador los usará)

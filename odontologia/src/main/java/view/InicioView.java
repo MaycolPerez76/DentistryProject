@@ -8,6 +8,14 @@ public class InicioView extends JFrame {
     private JButton btnIniciar;
     private JLabel lblImagen;
 
+    /*
+    Crea el título
+    Crea el botón
+    Organiza todo centrado
+    pone una foto de fondo
+    Agrega todo al panel principal
+    
+    */
     public InicioView() {
         setTitle("Inicio");
         setSize(900, 550);

@@ -88,5 +88,35 @@
       "nombre": "Juan Pérez",
       "telefono": 77770001
     }
+  },
+  "15": {
+    "id": 15,
+    "monto": 10000.0,
+    "cita": {
+      "id": 4,
+      "fecha": "2026-02-21",
+      "hora": "09:00",
+      "motivo": "muelas",
+      "estado": "CONFIRMADA",
+      "paciente": {
+        "numeroExpediente": "EXP-001",
+        "id": 101,
+        "nombre": "Juan Pérez",
+        "telefono": 77770001
+      },
+      "odontologo": {
+        "especialidad": "Cirugía Maxilofacial",
+        "numeroColegiado": 0,
+        "id": 1,
+        "nombre": "Dr. Gregory House",
+        "telefono": 88881111
+      }
+    },
+    "paciente": {
+      "numeroExpediente": "EXP-001",
+      "id": 101,
+      "nombre": "Juan Pérez",
+      "telefono": 77770001
+    }
   }
 }

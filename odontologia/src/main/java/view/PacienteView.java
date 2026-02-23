@@ -24,6 +24,21 @@ import java.util.List;
  * @author Sistema de Gestión Odontológica
  * @version 2.0
  */
+
+
+
+/*
+  Crea TextFields:
+  Nombre
+  Edad
+  Teléfono
+  Crea botones:
+  Guardar
+  Eliminar
+  Crea una TableView
+  
+
+*/
 public class PacienteView extends JPanel {
     
     private final PacienteController controller;

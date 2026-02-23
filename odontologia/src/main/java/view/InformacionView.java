@@ -3,7 +3,11 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-
+/*
+  Solo crea labels
+  Muestra datos del sistema
+  Organiza texto en VBox
+*/
 public class InformacionView extends JPanel {
 
     private JLabel titulo;
